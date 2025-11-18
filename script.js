@@ -16,7 +16,7 @@ let securiteContainer = document.querySelector(".securiteContainer");
 let personelContainer = document.querySelector(".personelContainer");
 let closeX = document.querySelector(".close");
 let cardsContainer = document.querySelector(".cardsContainer");
-let added;
+let experienceContainer = document.querySelector(".experience-container");
 let selected = null;
 function ShowPopUp() {
   popupContainer.classList.remove("hidden");
@@ -24,9 +24,9 @@ function ShowPopUp() {
 
 function AddWorker() {
   ShowPopUp();
-  let content = `<div class='workerCard flex p-2 rounded-2xl h-fit shadow-[0px_0px_5px_] w-[90%] gap-2 self-center'>
+  let content = `<div class='workerCard flex p-2 rounded-2xl shadow-[0px_0px_5px_] w-[95%] gap-2 self-center'>
   <div class='w-[10vh] h-[10vh] rounded-[200px] flex items-center justify-center overflow-hidden'>
-    <img src='${source.value}' alt='${nom.value} image' class='w-full h-full'>  
+    <img src='${source.value}' alt='${nom.value} image' class='w-full h-full rounded-full'>  
   </div>
   <div class=''>
     <p class='font-semibold text-sm'>${nom.value}</p>
@@ -52,7 +52,6 @@ closeX.addEventListener("click", () => {
 });
 
 function AddExperience() {
-  let experienceContainer = document.querySelector(".experience-container");
   let content = `<h1 class="text-lg font-bold">Experience</h1>
             <div class=" w-[80%] h-[15vh] flex flex-col gap-5">
                 <label for="debut">Date de debut</label>
@@ -70,15 +69,18 @@ function AddExperience() {
             </div>`;
   experienceContainer.innerHTML += content;
 }
-function addToArea(AllowedRoles, areaContainer) {
-  added = false;
+function addToArea(AllowedRoles, className) {
+  selected = null
+  let currentArea = null;
   let workers = document.querySelectorAll(".workerCard");
+
   addPopupContainer.classList.remove("hidden");
 
   workers.forEach((worker) => {
+    currentArea = document.querySelector(`.${className}`);
+    console.log(currentArea.children);
     let Role = worker.children[1].children[1].textContent;
-    console.log(!added);
-    if (AllowedRoles.includes(Role) && !added) {
+    if (AllowedRoles.includes(Role)) {
       console.log(worker.outerHTML);
 
       cardsContainer.innerHTML += worker.outerHTML;
@@ -89,24 +91,27 @@ function addToArea(AllowedRoles, areaContainer) {
           selected.classList.remove("bg-white");
           selected.classList.add("bg-gray-300");
           console.log(selected.children[1].children[0].textContent);
-
-          Add.addEventListener("click", () => {
-            if (!added) {
-              added = true;
-              let content = `<div class='bg-white workerCard flex items-center relative p-2 rounded-2xl h-fit border-black border-2 shadow-[0px_0px_5px_black] w-[10vw] gap-2 self-center'>
-                    <p class='text-black font-light'>${selected.children[1].children[0].textContent}</p>
+        }
+      });
+    } else {
+      cardsContainer.innerHTML = "no workers to add";
+      return;
+    }
+    Add.addEventListener("click", () => {
+      if(selected){
+        worker.remove();
+      let content = `<div class='bg-white workerCard flex items-center relative p-2 rounded h-fit shadow-[0px_0px_5px_black] w-[40%] gap-2'>
+                    <p class='text-black text-xs font-light'>${worker.children[1].children[0].textContent}</p>
                     <p class="absolute right-1 text-sm">❌</p>
                 </div>`;
 
-              areaContainer.innerHTML += content;
-              return;
-            } else if (added) {
-              alert("no workers to add");
-              return
-            }
-          });
-        }
-      });
-    }
+      if(currentArea.innerHTML == ''){
+        currentArea.innerHTML = content;
+      }
+      else{
+        currentArea.innerHTML += content;
+      }
+      }
+    });
   });
 }
