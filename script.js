@@ -189,7 +189,14 @@ Add.addEventListener("click", () => {
   
 });
 
-
+function getWhoMatchesTheRole(who, arr) {
+  for (const e of who) {
+    if (arr.includes(e.querySelector(".role").textContent)) {
+      return e;
+    }
+  }
+  return null;
+}
 
 
 
