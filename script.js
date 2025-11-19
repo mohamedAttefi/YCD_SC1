@@ -173,9 +173,8 @@ Add.addEventListener("click", () => {
   isAssigned = true;
    worker = {
     ...worker,
-    isAssigned: true
+    isAssigned: isAssigned
   }
-  console.log(workersArr);
   let content = `
     <div class='bg-white workerCard flex items-center relative p-2 rounded h-fit shadow-[0px_0px_5px_black] w-[40%] gap-2'>
       <p class='text-black text-xs font-light'>${currenrWorker.children[1].children[0].textContent}</p>
@@ -218,7 +217,7 @@ getWhatShouldBeAssigned([securiteContainer, archiveContainer, receptionContainer
 function getWhosAssigned(){
   if(worker.isAssigned){
     console.log('hello')
-    return
+    return worker
   }
 }
 
