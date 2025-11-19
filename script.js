@@ -198,7 +198,22 @@ function getWhoMatchesTheRole(who, arr) {
   return null;
 }
 
+function getWhatShouldBeAssigned(restreintes){
+  restreintes.forEach((restreinte) =>{
+    
+    if(restreinte.innerHTML.trim() == ''){
+      console.log(restreinte)
+      restreinte.parentElement.classList.remove('bg-[rgb(0,0,0,0.6)]')
+      restreinte.parentElement.classList.add('bg-[rgb(255,0,0,0.3)]')
+    }
+    else{
+      restreinte.parentElement.classList.add('bg-[rgb(0,0,0,0.6)]')
+      restreinte.parentElement.classList.remove('bg-[rgb(255,0,0,0.3)]')
+    }
+  })
+}
 
+getWhatShouldBeAssigned([securiteContainer, archiveContainer, receptionContainer, serveurContainer])
 
 function getWhosAssigned(){
   if(worker.isAssigned){
