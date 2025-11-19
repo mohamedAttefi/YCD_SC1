@@ -163,6 +163,32 @@ function addToArea(AllowedRoles, className) {
 })
 }
 
+Add.addEventListener("click", () => {
+  if (!currentWorkers || !currentAllowedRoles) return;
+
+  let currenrWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
+  if (!worker) return;
+
+  currenrWorker.remove();
+  isAssigned = true;
+   worker = {
+    ...worker,
+    isAssigned: true
+  }
+  console.log(workersArr);
+  let content = `
+    <div class='bg-white workerCard flex items-center relative p-2 rounded h-fit shadow-[0px_0px_5px_black] w-[40%] gap-2'>
+      <p class='text-black text-xs font-light'>${currenrWorker.children[1].children[0].textContent}</p>
+      <p class="absolute right-1 text-sm" id='unassign'>❌</p>
+    </div>
+  `;
+  currentContainer.innerHTML += content;
+  myfunc();
+  getWhatShouldBeAssigned([securiteContainer, archiveContainer, receptionContainer, serveurContainer])
+  getWhosAssigned()
+  
+});
+
 
 
 
