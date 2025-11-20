@@ -36,6 +36,24 @@ function ShowPopUp() {
   popupContainer.classList.remove("hidden");
 }
 function AddWorker() {
+  if (
+    !nom.value.match(/[a-zA-Z]{4,}$/) ||
+    !Email.value.match(/^[a-zA-Z]+@gmail.com$/) ||
+    !Telephone.value.match(/^0[5-7]\d{8}$/)
+  ) {
+    Swal.fire({
+      title: "please enter valid inputs",
+      icon: "warning",
+      confirmButtonText: "Okay",
+    }).then(() => {
+      Telephone.value = "";
+      source.value = "";
+      role.value = "";
+      Email.value = "";
+      nom.value = "";
+    });
+    return;
+  }
   let imageSrc;
   if (source.value.trim() == "") {
     imageSrc =
@@ -176,17 +194,22 @@ Add.addEventListener("click", () => {
   let div = document.createElement("div");
   let content = `
       <p class='text-black text-xs font-light'>${currentWorker.children[1].children[0].textContent}</p>
-      <p class="absolute right-1 text-sm unassign">❌</p>
+      <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
   div.classList =
-    "bg-white workerCard flex items-center relative p-2 rounded h-fit shadow-[0px_0px_5px_black] w-[40%] gap-2";
+    "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
   div.innerHTML = content;
   currentContainer.appendChild(div);
   myfunc();
-  getWhatShouldBeAssigned([securiteContainer,archiveContainer,receptionContainer,serveurContainer,]);
+  getWhatShouldBeAssigned([
+    securiteContainer,
+    archiveContainer,
+    receptionContainer,
+    serveurContainer,
+  ]);
   Unassign();
-  console.log(newArr)
-  console.log(assignedWorkersArr)
+  console.log(newArr);
+  console.log(assignedWorkersArr);
 });
 function getWhoMatchesTheRole(who, arr) {
   for (const e of who) {
@@ -198,7 +221,7 @@ function getWhoMatchesTheRole(who, arr) {
 }
 function getWhatShouldBeAssigned(restreintes) {
   restreintes.forEach((restreinte) => {
-    if (restreinte.children) {
+    if (restreinte.innerHTML == "") {
       restreinte.parentElement.classList.remove("bg-[rgb(0,0,0,0.6)]");
       restreinte.parentElement.classList.add("bg-[rgb(255,0,0,0.3)]");
     } else {
@@ -274,12 +297,14 @@ function displayAssigned(className) {
   assignedWorkersArr.forEach((worker) => {
     if (worker.container === className) {
       let div = document.createElement("div");
-      div.classList =
-        "bg-white workerCard flex items-center relative p-2 rounded h-fit shadow-[0px_0px_5px_black] w-[40%] gap-2";
-      div.innerHTML = `
-        <p class='text-black text-xs font-light'>${worker.Nom}</p>
-        <p class="absolute right-1 text-sm unassign">❌</p>`;
-      container.appendChild(div);
+  let content = `
+      <p class='text-black text-xs font-light'>${worker.Nom}</p>
+      <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
+  `;
+  div.classList =
+    "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+  div.innerHTML = content;
+  container.appendChild(div);
     }
   });
 
