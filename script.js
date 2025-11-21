@@ -1,3 +1,4 @@
+
 let popupContainer = document.querySelector(".popup-container");
 let Email = document.getElementById("Email");
 let Telephone = document.getElementById("Telephone");
@@ -62,6 +63,7 @@ function AddWorker() {
     imageSrc = source.value;
   }
   worker = {
+    id: Date.now(),
     Nom: nom.value,
     Email: Email.value,
     Role: role.value,
@@ -72,7 +74,7 @@ function AddWorker() {
   };
   console.log(worker.Image);
   let content = `
-    <div class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+    <div id='${worker.id}' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
         <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
             <img src='${worker.Image}' alt='${worker.Nom} image'>  
         </div>
@@ -82,10 +84,35 @@ function AddWorker() {
             <p class='text-xs email'>${worker.Email}</p>
         </div>
     </div>`;
-  workersContainer.innerHTML += content;
+
   let dateDebut = document.querySelectorAll(".debut");
   let dateFin = document.querySelectorAll(".fin");
   let Entreprise = document.querySelectorAll(".Entreprise");
+  console.log(!dateDebut.value > Date.now());
+  for (let i = 0; i < dateDebut.length; i++) {
+    let DebutDate = new Date(dateDebut[i].value).getTime()
+    let FinDate = new Date(dateDebut[i].value).getTime()
+    console.log(DebutDate>Date.now())
+    console.log(DebutDate>FinDate)
+    
+    if (
+      DebutDate > Date.now() ||
+      FinDate > dateFin.value
+    ) {
+      Swal.fire({
+        title: "please enter valid dates",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      }).then(() => {
+        Telephone.value = "";
+        source.value = "";
+        role.value = "";
+        Email.value = "";
+        nom.value = "";
+      });
+      return;
+    }
+  }
   if (dateDebut && dateFin && Entreprise) {
     for (let i = 0; i < dateDebut.length; i++) {
       worker.experiences.push({
@@ -95,11 +122,12 @@ function AddWorker() {
       });
     }
   }
+  console.log(workersArr);
   workersArr.push(worker);
   localStorage.setItem("workers", JSON.stringify(workersArr));
   closePopup();
-  console.log(workersArr);
-  ctr = 1;
+
+  workersContainer.innerHTML += content;
 }
 function closePopup() {
   popupContainer.classList.add("hidden");
@@ -178,18 +206,20 @@ Add.addEventListener("click", () => {
   currentWorker.classList.add("assigned");
   currentWorker.remove();
   assignedWorkers.push(currentWorker);
-  let newArr = workersArr.filter(
-    (e) => e.Nom != currentWorker.querySelector(".nom").textContent
-  );
   let assignedWorker = workersArr.find(
     (e) => e.Nom == currentWorker.querySelector(".nom").textContent
   );
+  workersArr = workersArr.filter(
+    (e) => e.Nom != currentWorker.querySelector(".nom").textContent
+  );
+  console.log(workersArr);
 
+  console.log(assignedWorker);
   assignedWorkersArr.push({
     ...assignedWorker,
     container: currentContainer.id,
   });
-  localStorage.setItem("workers", JSON.stringify(newArr));
+  localStorage.setItem("workers", JSON.stringify(workersArr));
   localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
   let div = document.createElement("div");
   let content = `
@@ -208,7 +238,6 @@ Add.addEventListener("click", () => {
     serveurContainer,
   ]);
   Unassign();
-  console.log(newArr);
   console.log(assignedWorkersArr);
 });
 function getWhoMatchesTheRole(who, arr) {
@@ -240,17 +269,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 function Unassign() {
   let unassignBtns = document.querySelectorAll(".unassign");
-
   unassignBtns.forEach((btn) => {
     btn.onclick = () => {
       let card = btn.closest(".workerCard");
       let workerName = card.querySelector("p").textContent;
-
-      let workerObj = assignedWorkersArr.find((w) => w.Nom === workerName);
+      console.log(assignedWorkersArr);
+      let workerObj = assignedWorkersArr.find((w) => w.Nom == workerName);
       assignedWorkersArr = assignedWorkersArr.filter(
-        (w) => w.Nom !== workerName
+        (w) => w.Nom != workerName
       );
-
+      if (!workerObj) return;
+      console.log(workerObj);
       workersArr.push(workerObj);
 
       localStorage.setItem("workers", JSON.stringify(workersArr));
@@ -259,7 +288,7 @@ function Unassign() {
       card.remove();
 
       workersContainer.innerHTML += `
-      <div class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+      <div id='${workerObj.id}' onclick='displayInfo(${workerObj.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
           <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
               <img src='${workerObj.Image}' alt='${workerObj.Nom} image'>
           </div>
@@ -271,12 +300,18 @@ function Unassign() {
       </div>`;
     };
   });
+  getWhatShouldBeAssigned([
+    securiteContainer,
+    archiveContainer,
+    receptionContainer,
+    serveurContainer,
+  ]);
 }
 
 function displayUnassigned() {
   workersArr.forEach((worker) => {
     let content = `
-    <div class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+    <div id='${worker.id}' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
         <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
             <img src='${worker.Image}' alt='${worker.Nom} image'>  
         </div>
@@ -295,16 +330,17 @@ function displayAssigned(className) {
   let container = document.querySelector(`.${className}`);
 
   assignedWorkersArr.forEach((worker) => {
-    if (worker.container === className) {
+    if (worker.container == className) {
+      console.log(worker);
       let div = document.createElement("div");
-  let content = `
+      let content = `
       <p class='text-black text-xs font-light'>${worker.Nom}</p>
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
-  div.classList =
-    "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
-  div.innerHTML = content;
-  container.appendChild(div);
+      div.classList =
+        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+      div.innerHTML = content;
+      container.appendChild(div);
     }
   });
 
@@ -317,3 +353,11 @@ displayAssigned("securiteContainer");
 displayAssigned("personelContainer");
 displayAssigned("archiveContainer");
 displayAssigned("serveurContainer");
+
+
+
+function displayInfo(e){
+  let worker = workersArr.find((e)=>e.id = e)
+  console.log(worker)
+  
+}
