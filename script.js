@@ -201,7 +201,6 @@ function addToArea(AllowedRoles, className) {
 Add.addEventListener("click", () => {
   console.log("xi");
   if (!currentWorkers || !currentAllowedRoles) return;
-  if(currentContainer.children.length >= 4) console.log('xi')
   let currentWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
   if (!currentWorker) return;
   currentWorker.classList.add("assigned");
@@ -228,7 +227,7 @@ Add.addEventListener("click", () => {
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
   div.classList =
-    "bg-white workerCard flex m-1 items-center relative p-2 h-fit w-[40%] gap-2";
+    "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
   div.innerHTML = content;
   currentContainer.appendChild(div);
   myfunc();
@@ -331,7 +330,7 @@ function displayAssigned(className) {
   let container = document.querySelector(`.${className}`);
 
   assignedWorkersArr.forEach((worker) => {
-    if (worker.container == className && container.children <= 4) {
+    if (worker.container == className) {
       console.log(worker);
       let div = document.createElement("div");
       let content = `
@@ -339,7 +338,7 @@ function displayAssigned(className) {
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
       div.classList =
-        "bg-white m-1 workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
       div.innerHTML = content;
       container.appendChild(div);
     }
@@ -356,14 +355,14 @@ displayAssigned("archiveContainer");
 displayAssigned("serveurContainer");
 
 function displayInfo(e) {
-  console.log(e)
-  let worker = workersArr.find((ele) => (ele.id == e));
+  
+  let worker = workersArr.find((ele) => (ele.id = e));
 
   console.log(worker);
   let content = `
   
-        <div class="flex">
-            <img src="${worker.Image}" class="w-[15%]">
+        <div class="flex w-[]">
+            <img src="https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg" class="w-[15%]">
             <div class="w-[85%] flex flex-col">
                 <h1 class="w-full text-center text-xl font-bold py-1">Worker Informations</h1>
                 <div class="w-[35%] ml-3 h-[85%] flex flex-col justify-around">
@@ -377,14 +376,18 @@ function displayInfo(e) {
   `;
   worker.experiences.forEach((ele)=>{
     content += `
-    <div class="mt-4 ml-2">
-            <h1 class=" text-center font-bold text-lg">Experiences</h1>
-            <div class="expContainer pl-2 w-[35vh] flex flex-col border-black border-[1px] justify-evenly h-[30vh] border-2">
-                
+    <div class="mt-4">
+            <h1 class="border text-center font-bold text-lg border-black ">Experiences</h1>
+            <div class="pl-2 w-[30vh] flex flex-col justify-evenly h-[30vh] border-2">
+                <p><strong>Date De Debut:</strong> ${ele.dateDeDebut}</p>
+                <p><strong>Date De Fin:</strong> ${ele.dateDeFin}</p>
+                <p><strong>Entreprise:</strong> ${ele.Entreprise}</p>
             </div>
         </div>`
   })
-  
-  
+  let div = document.createElement('div')
+  div.classList = "bg-white border-2 border-black w-[60%] absolute h-[80%] top-[10%] left-[20%]"
+  div.innerHTML = content
+  document.body.appendChild(div)
 
 }
