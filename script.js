@@ -1,4 +1,3 @@
-
 let popupContainer = document.querySelector(".popup-container");
 let Email = document.getElementById("Email");
 let Telephone = document.getElementById("Telephone");
@@ -24,14 +23,13 @@ let container = null;
 let roles = null;
 let worker = null;
 let assignedWorkers = [];
+let ctr = 1
 let workersArr = localStorage.getItem("workers")
   ? JSON.parse(localStorage.getItem("workers"))
   : [];
 let assignedWorkersArr = localStorage.getItem("assigned")
   ? JSON.parse(localStorage.getItem("assigned"))
   : [];
-let ctr = 1;
-let x = 0;
 let unassignBtns = null;
 function ShowPopUp() {
   popupContainer.classList.remove("hidden");
@@ -72,6 +70,7 @@ function AddWorker() {
     isAssigned: false,
     experiences: [],
   };
+  console.log(worker);
   console.log(worker.Image);
   let content = `
     <div id='${worker.id}' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
@@ -90,15 +89,12 @@ function AddWorker() {
   let Entreprise = document.querySelectorAll(".Entreprise");
   console.log(!dateDebut.value > Date.now());
   for (let i = 0; i < dateDebut.length; i++) {
-    let DebutDate = new Date(dateDebut[i].value).getTime()
-    let FinDate = new Date(dateDebut[i].value).getTime()
-    console.log(DebutDate>Date.now())
-    console.log(DebutDate>FinDate)
-    
-    if (
-      DebutDate > Date.now() ||
-      FinDate > dateFin.value
-    ) {
+    let DebutDate = new Date(dateDebut[i].value).getTime();
+    let FinDate = new Date(dateDebut[i].value).getTime();
+    console.log(DebutDate > Date.now());
+    console.log(DebutDate > FinDate);
+
+    if (DebutDate > Date.now() || FinDate > dateFin.value) {
       Swal.fire({
         title: "please enter valid dates",
         icon: "warning",
@@ -188,9 +184,13 @@ function addToArea(AllowedRoles, className) {
     if (currentAllowedRoles.includes(Role)) {
       cardsContainer.innerHTML += worker.outerHTML;
     }
+    addPopupContainer.querySelectorAll(".workerCard").forEach((child) => {
+      child.removeAttribute("onclick");
+    });
     addPopupContainer.addEventListener("click", (e) => {
       if (e.target.classList.contains("workerCard")) {
         selected = e.target;
+
         selected.classList.remove("bg-white");
         selected.classList.add("bg-gray-300");
         console.log(selected.children[1].children[0].textContent);
@@ -354,10 +354,42 @@ displayAssigned("personelContainer");
 displayAssigned("archiveContainer");
 displayAssigned("serveurContainer");
 
+function displayInfo(e) {
+  console.log(e)
+  let worker = workersArr.find((ele) => (ele.id == e));
 
-
-function displayInfo(e){
-  let worker = workersArr.find((e)=>e.id = e)
-  console.log(worker)
+  console.log(worker);
+  let content = `
   
+        <div class="flex">
+            <img src="${worker.Image}" class="w-[15%]">
+            <div class="w-[85%] flex flex-col">
+                <h1 class="w-full text-center text-xl font-bold py-1">Worker Informations</h1>
+                <div class="w-[35%] ml-3 h-[85%] flex flex-col justify-around">
+                    <p><strong>Nom:</strong> ${worker.Nom}</p>
+                    <p><strong>Email:</strong> ${worker.Email}</p>
+                    <p><strong>Telephone:</strong> ${worker.Telephone}</p>
+                    <p><strong>Role:</strong> ${worker.Role}</p>
+                </div>
+            </div>
+        </div>
+  `;
+  worker.experiences.forEach((ele)=>{
+    content += `
+    <div class="mt-4 ml-2">
+            <h1 class=" text-center font-bold text-lg">Experiences</h1>
+            <div class="expContainer pl-2 w-[35vh] flex flex-col border-black border-[1px] justify-evenly h-[30vh] border-2">
+                
+            </div>
+        </div>`
+  })
+  
+  let div = document.createElement('div')
+  div.classList = "bg-white border-2 border-black w-[60%] h-[80%] rounded"
+  div.innerHTML = content
+  let conatainer = document.createElement('div')
+  conatainer.classList = 'backdrop-blur-[5px] absolute top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center'
+  conatainer.appendChild(div)
+  document.body.appendChild(conatainer)
+
 }
