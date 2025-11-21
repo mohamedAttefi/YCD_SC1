@@ -13,11 +13,6 @@ Le site a été développé **uniquement avec HTML, JavaScript et TailwindCSS**,
 2. [Fonctionnalités](#fonctionnalités)
 3. [Technologies utilisées](#technologies-utilisées)
 4. [Installation](#installation)
-5. [Utilisation](#utilisation)
-6. [Structure du projet](#structure-du-projet)
-7. [Améliorations futures](#améliorations-futures)
-8. [Crédits](#crédits)
-9. [Licence](#licence)
 
 ---
 
