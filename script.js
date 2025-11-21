@@ -23,7 +23,7 @@ let container = null;
 let roles = null;
 let worker = null;
 let assignedWorkers = [];
-let ctr = 1
+let ctr = 1;
 let workersArr = localStorage.getItem("workers")
   ? JSON.parse(localStorage.getItem("workers"))
   : [];
@@ -327,6 +327,76 @@ function displayUnassigned() {
 }
 displayUnassigned();
 function displayAssigned(className) {
-  
+  let container = document.querySelector(`.${className}`);
 
+  assignedWorkersArr.forEach((worker) => {
+    if (worker.container == className) {
+      console.log(worker);
+      let div = document.createElement("div");
+      let content = `
+      <p class='text-black text-xs font-light'>${worker.Nom}</p>
+      <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
+  `;
+      div.classList =
+        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+      div.innerHTML = content;
+      container.appendChild(div);
+    }
+  });
+
+  Unassign();
+}
+
+displayAssigned("conferenceContainer");
+displayAssigned("receptionContainer");
+displayAssigned("securiteContainer");
+displayAssigned("personelContainer");
+displayAssigned("archiveContainer");
+displayAssigned("serveurContainer");
+
+function displayInfo(e) {
+  let worker = workersArr.find((ele) => (ele.id = e));
+  let expPart = ``;
+
+  worker.experiences.forEach((exp) => {
+    expPart += `
+            <br>
+             <h3 class="col-span-4 text-center font-bold text-black text-lg uppercase mt-4">Expériences</h3>
+        <div class="expCard border-2 border-green-300 flex flex-wrap bg-green-50 rounded-xl p-4 shadow-lg">
+            <div class="experience text-sm mt-3">
+                <p><span class="font-semibold">Entreprise :</span> ${exp.Entreprise}</p>
+                <p><span class="font-semibold">Début :</span> ${exp.dateDeDebut}</p>
+                <p><span class="font-semibold">Fin :</span> ${exp.dateDeFin}</p>
+            </div>
+        </div>
+        `;
+  });
+
+  console.log(worker);
+  infoPopup.innerHTML = `<div class="all-info-popup bg-white w-full max-w-lg rounded-2xl shadow-xl p-4 h-[60vh] overflow-scroll [scrollbar-width:none] border-4 border-black/30">
+        <div class="grid grid-cols-[1fr 2fr] gap-5 p-5">
+
+            <img src="${
+              worker.Imag
+            }" alt="Worker image" class="w-28 h-28 object-cover rounded-xl shadow-md border-amber-300/50 border-4">
+
+            <div class="infos gap-2 text-blue-700 text-sm border-[5px] h-[150px] p-3 col-span-1 rounded-xl shadow-lg">
+                <div class="border-b-2 border-blue-100 mb-3">
+                    <h3 class="font-bold text-black text-center"><i class="fas fa-person"></i> INFO GLOBAL</h3>
+                </div>
+                <h5><span class="font-semibold">Nom :</span> ${worker.Nom}</h5>
+                <h5><span class="font-semibold">Rôle :</span> ${
+                  worker.Role
+                }</h5>
+                <h5><span class="font-semibold">Email :</span> ${
+                  worker.Email
+                }</h5>
+            </div>
+
+            <div class="col-span-2">
+                ${expPart || "No Experiences"}
+            </div>
+
+        </div>
+    </div>`;
 }
