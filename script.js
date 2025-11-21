@@ -201,6 +201,7 @@ function addToArea(AllowedRoles, className) {
 Add.addEventListener("click", () => {
   console.log("xi");
   if (!currentWorkers || !currentAllowedRoles) return;
+  if(currentContainer.children.length >= 4) console.log('xi')
   let currentWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
   if (!currentWorker) return;
   currentWorker.classList.add("assigned");
@@ -227,7 +228,7 @@ Add.addEventListener("click", () => {
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
   div.classList =
-    "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+    "bg-white workerCard flex m-1 items-center relative p-2 h-fit w-[40%] gap-2";
   div.innerHTML = content;
   currentContainer.appendChild(div);
   myfunc();
@@ -330,7 +331,7 @@ function displayAssigned(className) {
   let container = document.querySelector(`.${className}`);
 
   assignedWorkersArr.forEach((worker) => {
-    if (worker.container == className) {
+    if (worker.container == className && container.children <= 4) {
       console.log(worker);
       let div = document.createElement("div");
       let content = `
@@ -338,7 +339,7 @@ function displayAssigned(className) {
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
       div.classList =
-        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+        "bg-white m-1 workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
       div.innerHTML = content;
       container.appendChild(div);
     }
@@ -384,12 +385,6 @@ function displayInfo(e) {
         </div>`
   })
   
-  let div = document.createElement('div')
-  div.classList = "bg-white border-2 border-black w-[60%] h-[80%] rounded"
-  div.innerHTML = content
-  let conatainer = document.createElement('div')
-  conatainer.classList = 'backdrop-blur-[5px] absolute top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center'
-  conatainer.appendChild(div)
-  document.body.appendChild(conatainer)
+  
 
 }
