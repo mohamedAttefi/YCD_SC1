@@ -327,67 +327,6 @@ function displayUnassigned() {
 }
 displayUnassigned();
 function displayAssigned(className) {
-  let container = document.querySelector(`.${className}`);
-
-  assignedWorkersArr.forEach((worker) => {
-    if (worker.container == className) {
-      console.log(worker);
-      let div = document.createElement("div");
-      let content = `
-      <p class='text-black text-xs font-light'>${worker.Nom}</p>
-      <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
-  `;
-      div.classList =
-        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
-      div.innerHTML = content;
-      container.appendChild(div);
-    }
-  });
-
-  Unassign();
-}
-
-displayAssigned("conferenceContainer");
-displayAssigned("receptionContainer");
-displayAssigned("securiteContainer");
-displayAssigned("personelContainer");
-displayAssigned("archiveContainer");
-displayAssigned("serveurContainer");
-
-function displayInfo(e) {
   
-  let worker = workersArr.find((ele) => (ele.id = e));
-
-  console.log(worker);
-  let content = `
-  
-        <div class="flex w-[]">
-            <img src="https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg" class="w-[15%]">
-            <div class="w-[85%] flex flex-col">
-                <h1 class="w-full text-center text-xl font-bold py-1">Worker Informations</h1>
-                <div class="w-[35%] ml-3 h-[85%] flex flex-col justify-around">
-                    <p><strong>Nom:</strong> ${worker.Nom}</p>
-                    <p><strong>Email:</strong> ${worker.Email}</p>
-                    <p><strong>Telephone:</strong> ${worker.Telephone}</p>
-                    <p><strong>Role:</strong> ${worker.Role}</p>
-                </div>
-            </div>
-        </div>
-  `;
-  worker.experiences.forEach((ele)=>{
-    content += `
-    <div class="mt-4">
-            <h1 class="border text-center font-bold text-lg border-black ">Experiences</h1>
-            <div class="pl-2 w-[30vh] flex flex-col justify-evenly h-[30vh] border-2">
-                <p><strong>Date De Debut:</strong> ${ele.dateDeDebut}</p>
-                <p><strong>Date De Fin:</strong> ${ele.dateDeFin}</p>
-                <p><strong>Entreprise:</strong> ${ele.Entreprise}</p>
-            </div>
-        </div>`
-  })
-  let div = document.createElement('div')
-  div.classList = "bg-white border-2 border-black w-[60%] absolute h-[80%] top-[10%] left-[20%]"
-  div.innerHTML = content
-  document.body.appendChild(div)
 
 }
