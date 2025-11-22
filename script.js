@@ -88,7 +88,35 @@ function AddWorker() {
   let dateFin = document.querySelectorAll(".fin");
   let Entreprise = document.querySelectorAll(".Entreprise");
   console.log(!dateDebut.value > Date.now());
-  
+  for (let i = 0; i < dateDebut.length; i++) {
+    let DebutDate = new Date(dateDebut[i].value).getTime();
+    let FinDate = new Date(dateFin[i].value).getTime();
+    let today = Date.now();
+    if (!dateDebut[i].value || !dateFin[i].value) {
+      Swal.fire({
+        title: "Please fill both start and end dates.",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+    if (DebutDate >= FinDate) {
+      Swal.fire({
+        title: "Start date must be before end date.",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+    if (DebutDate > today || FinDate > today) {
+      Swal.fire({
+        title: "Experience dates cannot be in the future.",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+  }
 
   if (dateDebut && dateFin && Entreprise) {
     for (let i = 0; i < dateDebut.length; i++) {
