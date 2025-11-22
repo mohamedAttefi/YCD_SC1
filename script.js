@@ -88,27 +88,8 @@ function AddWorker() {
   let dateFin = document.querySelectorAll(".fin");
   let Entreprise = document.querySelectorAll(".Entreprise");
   console.log(!dateDebut.value > Date.now());
-  for (let i = 0; i < dateDebut.length; i++) {
-    let DebutDate = new Date(dateDebut[i].value).getTime();
-    let FinDate = new Date(dateDebut[i].value).getTime();
-    console.log(DebutDate > Date.now());
-    console.log(DebutDate > FinDate);
+  
 
-    if (DebutDate > Date.now() || FinDate > dateFin.value) {
-      Swal.fire({
-        title: "please enter valid dates",
-        icon: "warning",
-        confirmButtonText: "Okay",
-      }).then(() => {
-        Telephone.value = "";
-        source.value = "";
-        role.value = "";
-        Email.value = "";
-        nom.value = "";
-      });
-      return;
-    }
-  }
   if (dateDebut && dateFin && Entreprise) {
     for (let i = 0; i < dateDebut.length; i++) {
       worker.experiences.push({
@@ -171,10 +152,12 @@ function AddExperience() {
     });
   });
 }
-function addToArea(AllowedRoles, className) {
+function addToArea(AllowedRoles, className, limits) {
   currentAllowedRoles = AllowedRoles;
   currentContainer = document.querySelector(`.${className}`);
   currentWorkers = document.querySelectorAll(".workerCard");
+  number = limits;
+  console.log(number);
   console.log(currentWorkers);
   console.log(currentAllowedRoles);
   addPopupContainer.classList.remove("hidden");
@@ -199,10 +182,28 @@ function addToArea(AllowedRoles, className) {
   });
 }
 Add.addEventListener("click", () => {
-  console.log("xi");
+  console.log(currentContainer.children.length);
+  console.log(number);
   if (!currentWorkers || !currentAllowedRoles) return;
   let currentWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
   if (!currentWorker) return;
+  if (currentContainer.children.length == number) {
+    Swal.fire({
+      title: "You have reached the max of workers allowed in this room",
+      icon: "warning",
+      confirmButtonText: "Okay",
+    }).then(() => {
+      myfunc();
+      getWhatShouldBeAssigned([
+        securiteContainer,
+        archiveContainer,
+        receptionContainer,
+        serveurContainer,
+      ]);
+      Unassign();
+    });
+    return;
+  }
   currentWorker.classList.add("assigned");
   currentWorker.remove();
   assignedWorkers.push(currentWorker);
@@ -286,7 +287,12 @@ function Unassign() {
       localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
 
       card.remove();
-
+      getWhatShouldBeAssigned([
+        securiteContainer,
+        archiveContainer,
+        receptionContainer,
+        serveurContainer,
+      ]);
       workersContainer.innerHTML += `
       <div id='${workerObj.id}' onclick='displayInfo(${workerObj.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
           <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
@@ -300,12 +306,6 @@ function Unassign() {
       </div>`;
     };
   });
-  getWhatShouldBeAssigned([
-    securiteContainer,
-    archiveContainer,
-    receptionContainer,
-    serveurContainer,
-  ]);
 }
 
 function displayUnassigned() {
@@ -373,11 +373,11 @@ function displayInfo(e) {
   });
 
   console.log(worker);
-  infoPopup.innerHTML = `<div class="all-info-popup bg-white w-full max-w-lg rounded-2xl shadow-xl p-4 h-[60vh] overflow-scroll [scrollbar-width:none] border-4 border-black/30">
+  popupContainer.innerHTML = `<div class="all-info-popup bg-white w-full max-w-lg rounded-2xl shadow-xl p-4 h-[60vh] overflow-scroll [scrollbar-width:none] border-4 border-black/30">
         <div class="grid grid-cols-[1fr 2fr] gap-5 p-5">
 
             <img src="${
-              worker.Imag
+              worker.Image
             }" alt="Worker image" class="w-28 h-28 object-cover rounded-xl shadow-md border-amber-300/50 border-4">
 
             <div class="infos gap-2 text-blue-700 text-sm border-[5px] h-[150px] p-3 col-span-1 rounded-xl shadow-lg">
@@ -399,4 +399,5 @@ function displayInfo(e) {
 
         </div>
     </div>`;
+  popupContainer.classList.remove("hidden");
 }

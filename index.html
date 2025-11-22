@@ -47,16 +47,16 @@
                         class="h-[34%] z-2 relative relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-4 flex-col">
                         Salle de
                         Conference <button
-                            onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer')"
+                            onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer', 4)"
                             class="bg-sky-500 w-5 h-5 flex z-2 items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                        <div class="w-[95%]  flex flex-wrap justify-around  bottom-[1%] self-end conferenceContainer"
+                        <div class="w-[95%] h-[55%]  flex flex-wrap justify-around justify-self-end conferenceContainer"
                             id="conferenceContainer"></div>
                     </div>
                     <div class="h-[66%]  relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-4 text-white font-bold"
                         id="reception">Salle de reception
-                        <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer')"
+                        <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2)"
                             class="bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] z-2 justify-center hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                        <div class="w-[95%] flex flex-wrap bottom-[1%] justify-around self-end  receptionContainer"
+                        <div class="w-[95%] h-[55%] relative bottom-[-10%] w-[95%] flex flex-wrap justify-around  justify-self-end receptionContainer"
                             id="receptionContainer"></div>
                     </div>
                 </div>
@@ -64,17 +64,17 @@
                     <div class="h-[35%]  flex">
                         <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-4 text-white font-bold"
                             id="archive">Salle de
-                            archive <button onclick="addToArea(['Manager'], 'archiveContainer')"
+                            archive <button onclick="addToArea(['Manager'], 'archiveContainer', 1)"
                                 class="bg-sky-500 z-2 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                            <div class="w-[95%] flex flex-wrap justify-around justify-around self-end archiveContainer"
+                            <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap justify-around justify-self-end  archiveContainer"
                                 id="archiveContainer"></div>
                         </div>
                         <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
                             id="securite">Salle
                             de securite <button
-                                onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer')"
+                                onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer', 2)"
                                 class="z-2 bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                            <div class="w-[95%] flex flex-wrap self-end  justify-around securiteContainer"
+                            <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap  justify-self-end justify-around securiteContainer"
                                 id="securiteContainer"></div>
                         </div>
                     </div>
@@ -82,18 +82,18 @@
                         <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
                             id="personel">Salle
                             de personel <button
-                                onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer')"
+                                onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer', 2)"
                                 class="z-2 bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] ">+</button>
-                            <div class="w-[95%] flex flex-wrap self-end justify-around personelContainer"
+                            <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap justify-self-end justify-around personelContainer"
                                 id="personelContainer"></div>
                         </div>
                         <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
                             id="serveur">Salle
                             de serveur <button
-                                onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer')"
+                                onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2)"
                                 class="z-2 bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
 
-                            <div class="w-[95%] flex flex-wrap  self-end justify-around serveurContainer"
+                            <div class="w-[95%] w-[95%] h-[55%] flex flex-wrap justify-self-end  justify-around serveurContainer"
                                 id="serveurContainer"></div>
                         </div>
                     </div>
@@ -166,9 +166,6 @@
             <div class="cardsContainer flex flex-col justify-center w-full items-center gap-4"></div>
             <button class="Add bg-green-400 p-4 rounded-lg">Add worker</button>
         </div>
-    </div
-        class='infoPopup absolute top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden'>
-    <div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
