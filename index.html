@@ -38,13 +38,14 @@
             <button
                 class="w-[80%] h-[7vh] bg-sky-500 rounded-lg hover:bg-sky-900 transition-all duration-[0.3s] text-white font-bold"
                 onclick="ShowPopUp()">Add Worker</button>
+                <p class="text-gray-500 font-mono">disponible workers <span class="disponible font-semibold"></span></p>
         </aside>
         <main class="  w-[80%] h-[90vh] flex justify-center items-center">
             <div class="container w-[95%] h-[90%] bottom-0 border-[1px] border-black flex justify-between">
 
                 <div class="w-[39%]   flex flex-col">
                     <div
-                        class="h-[34%] z-2 relative relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-4 flex-col">
+                        class="h-[34%] border-[1px] border-black z-2 relative relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-4 flex-col">
                         Salle de
                         Conference <button
                             onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer', 4)"
@@ -52,7 +53,7 @@
                         <div class="w-[95%] h-[55%]  flex flex-wrap justify-around justify-self-end conferenceContainer"
                             id="conferenceContainer"></div>
                     </div>
-                    <div class="h-[66%]  relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-4 text-white font-bold"
+                    <div class="h-[66%]  border-[1px] border-black relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-4 text-white font-bold"
                         id="reception">Salle de reception
                         <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2)"
                             class="bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] z-2 justify-center hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
@@ -62,14 +63,14 @@
                 </div>
                 <div class="w-[46%]   flex flex-col justify-between">
                     <div class="h-[35%]  flex">
-                        <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-4 text-white font-bold"
+                        <div class="w-[50%] h-[100%] border-[1px] border-black relative z-1 bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-4 text-white font-bold"
                             id="archive">Salle de
                             archive <button onclick="addToArea(['Manager'], 'archiveContainer', 1)"
                                 class="bg-sky-500 z-2 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
                             <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap justify-around justify-self-end  archiveContainer"
                                 id="archiveContainer"></div>
                         </div>
-                        <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
+                        <div class="w-[50%] border-[1px] border-black h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
                             id="securite">Salle
                             de securite <button
                                 onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer', 2)"
@@ -79,7 +80,7 @@
                         </div>
                     </div>
                     <div class="h-[34%]  flex">
-                        <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
+                        <div class="w-[50%] border-[1px] border-black h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
                             id="personel">Salle
                             de personel <button
                                 onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer', 2)"
@@ -87,7 +88,7 @@
                             <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap justify-self-end justify-around personelContainer"
                                 id="personelContainer"></div>
                         </div>
-                        <div class="w-[50%] h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
+                        <div class="w-[50%] border-[1px] border-black h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
                             id="serveur">Salle
                             de serveur <button
                                 onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2)"

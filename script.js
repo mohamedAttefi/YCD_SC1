@@ -24,6 +24,7 @@ let roles = null;
 let worker = null;
 let assignedWorkers = [];
 let ctr = 1;
+let disponible = document.querySelector('.disponible')
 let workersArr = localStorage.getItem("workers")
   ? JSON.parse(localStorage.getItem("workers"))
   : [];
@@ -133,6 +134,7 @@ function AddWorker() {
   closePopup();
 
   workersContainer.innerHTML += content;
+  disponible.textContent = workersContainer.children.length
 }
 function closePopup() {
   popupContainer.classList.add("hidden");
@@ -268,6 +270,7 @@ Add.addEventListener("click", () => {
   ]);
   Unassign();
   console.log(assignedWorkersArr);
+  disponible.textContent = workersContainer.children.length
 });
 function getWhoMatchesTheRole(who, arr) {
   for (const e of who) {
@@ -281,10 +284,10 @@ function getWhatShouldBeAssigned(restreintes) {
   restreintes.forEach((restreinte) => {
     if (restreinte.innerHTML == "") {
       restreinte.parentElement.classList.remove("bg-[rgb(0,0,0,0.6)]");
-      restreinte.parentElement.classList.add("bg-[rgb(255,0,0,0.3)]");
+      restreinte.parentElement.classList.add("bg-[rgb(255,0,0,0.5)]");
     } else {
       restreinte.parentElement.classList.add("bg-[rgb(0,0,0,0.6)]");
-      restreinte.parentElement.classList.remove("bg-[rgb(255,0,0,0.3)]");
+      restreinte.parentElement.classList.remove("bg-[rgb(255,0,0,0.5)]");
     }
   });
 }
@@ -297,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ]);
 });
 function Unassign() {
+  disponible.textContent = workersContainer.children.length
   let unassignBtns = document.querySelectorAll(".unassign");
   unassignBtns.forEach((btn) => {
     btn.onclick = () => {
@@ -332,7 +336,9 @@ function Unassign() {
               <p class='text-xs email'>${workerObj.Email}</p>
           </div>
       </div>`;
+      disponible.textContent = workersContainer.children.length
     };
+    
   });
 }
 
@@ -429,3 +435,8 @@ function displayInfo(e) {
     </div>`;
   popupContainer.classList.remove("hidden");
 }
+popupContainer.addEventListener('click', (e)=>{
+  if(e.target === popupContainer || e.key == 'Escape'){
+    closePopup()
+  }
+})
