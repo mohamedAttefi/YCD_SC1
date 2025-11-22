@@ -151,7 +151,12 @@ function myfunc() {
   cardsContainer.innerHTML = "";
 }
 function AddExperience() {
-  experienceContainer.classList.remove("hidden");
+  if(experienceContainer.innerHTML == ""){
+    experienceContainer.classList.remove("hidden");
+  }
+  else{
+    experienceContainer.classList.remove("hidden");
+  }
   let content = `<div class='w-full h-full  flex flex-col justify-center items-center '>
   <h1 class="text-lg font-bold">Experience${ctr}</h1>
             <div class=" w-[80%] h-[15vh] flex flex-col gap-5">
@@ -177,7 +182,8 @@ function AddExperience() {
     e.addEventListener("click", () => {
       ctr--;
       e.parentElement.remove();
-      if (experienceContainer.innerHTML == "")
+      console.log(experienceContainer.children.length)
+      if (experienceContainer.children.length == 0)
         experienceContainer.classList.add("hidden");
     });
   });

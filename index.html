@@ -4,97 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Workhsphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .container {
+            border: black solid 1px;
+        }
+
+        .popup-container .popup {
+            overflow-y: scroll;
+        }
+
+        .popup-container .popup::-webkit-scrollbar {
+            display: none;
+        }
+
+        .workersContainer {
+            overflow-y: scroll;
+        }
+
+        .workersContainer::-webkit-scrollbar,
+        .cardsContainer::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            aside.mobile-hidden {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    .container {
-        border: black solid 1px;
-    }
 
-    .popup-container .popup {
-        overflow-y: scroll;
-    }
+<body
+    class="flex items-center justify-center min-h-screen bg-gradient-to-tr from-sky-700 to-blue-400 relative p-2 sm:p-4">
+    <header
+        class="md:hidden fixed top-0 left-0 right-0 z-50 bg-sky-600 text-white p-3 flex items-center justify-between shadow-lg">
+        <div class="flex items-center gap-3">
+            <button id="toggleSidebar" class="p-2 bg-white/20 rounded-lg hover:bg-white/30">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <h1 class="font-bold text-lg">Workhsphere</h1>
+        </div>
+        <button onclick="ShowPopUp()" class="bg-white text-sky-700 font-semibold py-2 px-4 rounded-lg text-sm">
+            Add Worker
+        </button>
+    </header>
 
-    .popup-container .popup::-webkit-scrollbar {
-        display: none;
-    }
+    <div
+        class="flex flex-col md:flex-row items-center w-full h-auto md:h-[90vh] max-w-[1600px] border-[1px] border-gray-400 bg-white rounded-2xl overflow-hidden mt-16 md:mt-0">
 
-    .workersContainer {
-        overflow-y: scroll;
-    }
-
-    .workersContainer::-webkit-scrollbar,
-    .cardsContainer::-webkit-scrollbar {
-        display: none;
-    }
-</style>
-
-<body class="flex items-center justify-center h-screen bg-gradient-to-tr from-sky-700 to-blue-400 relative">
-    <div class="flex items-center h-[90vh] w-[95%] border-[1px] border-gray-400 bg-white rounded-2xl overflow-hidden">
-        <aside class="w-[20%] h-[90vh] flex flex-col py-8 justify-between items-center border-gray-700 border-r-[1px]">
-            <div class="w-[95%] h-[85%] border-[1px] border-gray-500 rounded flex flex-col pt-1 workersContainer gap-2">
+        <aside id="sidebar"
+            class="w-full md:w-[20%] h-auto md:h-[90vh] flex flex-col py-4 md:py-8 justify-between items-center border-gray-700 md:border-r-[1px] mobile-hidden">
+            <div
+                class="w-[95%] h-[300px] md:h-[85%] border-[1px] border-gray-500 rounded flex flex-col pt-1 workersContainer gap-2">
             </div>
             <button
-                class="w-[80%] h-[7vh] bg-sky-500 rounded-lg hover:bg-sky-900 transition-all duration-[0.3s] text-white font-bold"
+                class="w-[80%] h-[50px] md:h-[7vh] bg-sky-500 rounded-lg hover:bg-sky-900 transition-all duration-[0.3s] text-white font-bold mt-4"
                 onclick="ShowPopUp()">Add Worker</button>
-                <p class="text-gray-500 font-mono">disponible workers <span class="disponible font-semibold"></span></p>
+            <p class="text-gray-500 font-mono text-xs md:text-sm mt-2">disponible workers <span
+                    class="disponible font-semibold"></span></p>
         </aside>
-        <main class="  w-[80%] h-[90vh] flex justify-center items-center">
-            <div class="container w-[95%] h-[90%] bottom-0 border-[1px] border-black flex justify-between">
-
-                <div class="w-[39%]   flex flex-col">
+        <main class="w-full md:w-[80%] h-auto md:h-[90vh] flex justify-center items-center p-2 md:p-0">
+            <div
+                class="container w-full md:w-[95%] h-auto md:h-[90%] border-[1px] border-black flex flex-col lg:flex-row justify-between gap-2 lg:gap-0 p-2 md:p-0">
+                <div class="w-full lg:w-[39%] flex flex-col gap-2 lg:gap-0">
                     <div
-                        class="h-[34%] border-[1px] border-black z-2 relative relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-4 flex-col">
-                        Salle de
-                        Conference <button
+                        class="h-[250px] sm:h-[300px] lg:h-[34%] border-[1px] border-black relative flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-2 sm:gap-4 flex-col p-2">
+                        <span class="text-sm sm:text-base text-center">Salle de Conference</span>
+                        <button
                             onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer', 4)"
-                            class="bg-sky-500 w-5 h-5 flex z-2 items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                        <div class="w-[95%] h-[55%]  flex flex-wrap justify-around justify-self-end conferenceContainer"
+                            class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
+                        <div class="w-[95%] h-[55%] flex flex-wrap justify-around conferenceContainer"
                             id="conferenceContainer"></div>
                     </div>
-                    <div class="h-[66%]  border-[1px] border-black relative z-1 flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-4 text-white font-bold"
-                        id="reception">Salle de reception
+                    <div class="h-[350px] sm:h-[400px] lg:h-[66%] border-[1px] border-black relative flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-2 sm:gap-4 text-white font-bold p-2"
+                        id="reception">
+                        <span class="text-sm sm:text-base text-center">Salle de reception</span>
                         <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2)"
-                            class="bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] z-2 justify-center hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                        <div class="w-[95%] h-[55%] relative bottom-[-10%] w-[95%] flex flex-wrap justify-around  justify-self-end receptionContainer"
+                            class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
+                        <div class="w-[95%] h-[55%] flex flex-wrap justify-around receptionContainer"
                             id="receptionContainer"></div>
                     </div>
                 </div>
-                <div class="w-[46%]   flex flex-col justify-between">
-                    <div class="h-[35%]  flex">
-                        <div class="w-[50%] h-[100%] border-[1px] border-black relative z-1 bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-4 text-white font-bold"
-                            id="archive">Salle de
-                            archive <button onclick="addToArea(['Manager'], 'archiveContainer', 1)"
-                                class="bg-sky-500 z-2 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                            <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap justify-around justify-self-end  archiveContainer"
+                <div class="w-full lg:w-[46%] flex flex-col justify-between gap-2 lg:gap-0">
+                    <div class="h-auto lg:h-[35%] flex flex-col sm:flex-row gap-2 sm:gap-0">
+                        <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-2 sm:gap-4 text-white font-bold p-2"
+                            id="archive">
+                            <span class="text-sm sm:text-base text-center">Salle de archive</span>
+                            <button onclick="addToArea(['Manager'], 'archiveContainer', 1)"
+                                class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
+                            <div class="w-[95%] h-[55%] flex flex-wrap justify-around archiveContainer"
                                 id="archiveContainer"></div>
                         </div>
-                        <div class="w-[50%] border-[1px] border-black h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
-                            id="securite">Salle
-                            de securite <button
+
+                        <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
+                            id="securite">
+                            <span class="text-sm sm:text-base text-center">Salle de securite</span>
+                            <button
                                 onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer', 2)"
-                                class="z-2 bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
-                            <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap  justify-self-end justify-around securiteContainer"
+                                class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
+                            <div class="w-[95%] h-[55%] flex flex-wrap justify-around securiteContainer"
                                 id="securiteContainer"></div>
                         </div>
                     </div>
-                    <div class="h-[34%]  flex">
-                        <div class="w-[50%] border-[1px] border-black h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
-                            id="personel">Salle
-                            de personel <button
+
+                    <div class="h-auto lg:h-[34%] flex flex-col sm:flex-row gap-2 sm:gap-0 mt-2 lg:mt-0">
+                        <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
+                            id="personel">
+                            <span class="text-sm sm:text-base text-center">Salle de personel</span>
+                            <button
                                 onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer', 2)"
-                                class="z-2 bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] ">+</button>
-                            <div class="w-[95%] h-[55%] w-[95%] flex flex-wrap justify-self-end justify-around personelContainer"
+                                class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
+                            <div class="w-[95%] h-[55%] flex flex-wrap justify-around personelContainer"
                                 id="personelContainer"></div>
                         </div>
-                        <div class="w-[50%] border-[1px] border-black h-[100%] relative z-1 bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-4 text-white font-bold"
-                            id="serveur">Salle
-                            de serveur <button
-                                onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2)"
-                                class="z-2 bg-sky-500 w-5 h-5 flex items-center rounded-md pb-[3px] justify-center  hover:bg-sky-900 transition-all duration-[0.3s]">+</button>
 
-                            <div class="w-[95%] w-[95%] h-[55%] flex flex-wrap justify-self-end  justify-around serveurContainer"
+                        <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
+                            id="serveur">
+                            <span class="text-sm sm:text-base text-center">Salle de serveur</span>
+                            <button
+                                onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2)"
+                                class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
+                            <div class="w-[95%] h-[55%] flex flex-wrap justify-around serveurContainer"
                                 id="serveurContainer"></div>
                         </div>
                     </div>
@@ -104,28 +138,31 @@
         </main>
 
     </div>
-    <div
-        class="absolute top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px]  hidden popup-container">
 
-        <div class="w-[50%] h-[90vh] bg-white rounded-lg flex flex-col justify-around items-center popup gap-4 p-5">
-            <h1 class="text-xl font-bold mt-2">Worker informations</h1>
-            <div class="w-[100%] flex justify-around">
-                <div class=" w-[40%] h-[15vh] flex flex-col gap-5">
-                    <label for="nom">Le Nom</label>
+    <div
+        class="fixed top-10 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden popup-container p-4">
+        <div
+            class="w-full sm:w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] bg-white rounded-lg flex flex-col justify-around items-center popup gap-4 p-4 sm:p-5">
+            <h1 class="text-lg sm:text-xl font-bold mt-2">Worker informations</h1>
+
+            <div class="w-full flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
+                <div class="w-full sm:w-[45%] flex flex-col gap-3">
+                    <label for="nom" class="text-sm sm:text-base">Le Nom</label>
                     <input type="text" name="nom" id="nom"
-                        class=" p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700  w-full">
+                        class="p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700 w-full text-sm sm:text-base">
                 </div>
-                <div class=" w-[40%] h-[15vh] flex flex-col gap-5">
-                    <label for="Email">Email</label>
+                <div class="w-full sm:w-[45%] flex flex-col gap-3">
+                    <label for="Email" class="text-sm sm:text-base">Email</label>
                     <input type="text" id="Email"
-                        class="p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700  w-full">
+                        class="p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700 w-full text-sm sm:text-base">
                 </div>
             </div>
-            <div class="w-[100%] flex justify-around">
-                <div class=" w-[40%] h-[15vh] flex flex-col gap-5">
-                    <label for="role">Role</label>
+
+            <div class="w-full flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
+                <div class="w-full sm:w-[45%] flex flex-col gap-3">
+                    <label for="role" class="text-sm sm:text-base">Role</label>
                     <select name="role" id="role"
-                        class=" p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700 w-full">
+                        class="p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700 w-full text-sm sm:text-base">
                         <option value="Réceptionnistes">Réceptionnistes</option>
                         <option value="Techniciens IT">Techniciens IT</option>
                         <option value="Agents de sécurité">Agents de sécurité</option>
@@ -134,43 +171,69 @@
                         <option value="Autres rôles">Autres rôles</option>
                     </select>
                 </div>
-                <div class=" w-[40%] h-[15vh] flex flex-col gap-5">
-                    <label for="Telephone">Telephone</label>
+                <div class="w-full sm:w-[45%] flex flex-col gap-3">
+                    <label for="Telephone" class="text-sm sm:text-base">Telephone</label>
                     <input type="text" id="Telephone"
-                        class=" p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700  w-full">
+                        class="p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700 w-full text-sm sm:text-base">
                 </div>
             </div>
-            <div class=" w-[90%] h-[15vh] flex flex-col gap-5">
-                <label for="source">source d'image</label>
+
+            <div class="w-full flex flex-col gap-3">
+                <label for="source" class="text-sm sm:text-base">source d'image</label>
                 <input type="text" name="source" id="source"
-                    class=" p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700  w-full">
+                    class="p-2 bg-gray-100 border-[1px] rounded-lg border-gray-700 w-full text-sm sm:text-base">
             </div>
+
             <div
-                class="experience-container w-full flex flex-col rounded-lg bg-gray-200 hidden borer-gray-400 p-4 border-[2px] justify-center items-center">
-            </div>
-            <button class="w-[90%] py-4 bg-orange-400 rounded-lg" onclick="AddExperience()">Add Experience</button>
-
-
-            <div class="w-full flex justify-around">
-                <button class="w-[40%] py-4 bg-green-400 rounded-lg" onclick="AddWorker(worker)">Add</button>
-                <button class="w-[40%] py-4 bg-red-400 rounded-lg" onclick="closePopup()">Close</button>
-
+                class="experience-container w-full flex flex-col rounded-lg bg-gray-200 hidden border-gray-400 p-4 border-[2px] justify-center items-center">
             </div>
 
+            <button
+                class="w-full py-3 sm:py-4 bg-orange-400 rounded-lg font-semibold hover:bg-orange-500 transition-all text-sm sm:text-base"
+                onclick="AddExperience()">Add Experience</button>
+
+            <div class="w-full flex flex-col sm:flex-row justify-around gap-3 sm:gap-0">
+                <button
+                    class="w-full sm:w-[48%] py-3 sm:py-4 bg-green-400 rounded-lg font-semibold hover:bg-green-500 transition-all text-sm sm:text-base"
+                    onclick="AddWorker(worker)">Add</button>
+                <button
+                    class="w-full sm:w-[48%] py-3 sm:py-4 bg-red-400 rounded-lg font-semibold hover:bg-red-500 transition-all text-sm sm:text-base"
+                    onclick="closePopup()">Close</button>
+            </div>
         </div>
     </div>
+
     <div
-        class="addPopupContainer absolute top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden">
-        <div class="w-[40%] rounded-xl bg-white border-gray-700 relative flex flex-col gap-2 border-[1px] p-3">
-            <h1 class="w-[100%] text-center font-bold text-lg pt-2 title">Add worker to work space</h1>
-            <p class="absolute right-2 top-1 close">⨉</p>
-            <div class="cardsContainer flex flex-col justify-center w-full items-center gap-4"></div>
-            <button class="Add bg-green-400 p-4 rounded-lg">Add worker</button>
+        class="addPopupContainer fixed top-10 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden p-4">
+        <div
+            class="w-full sm:w-[90%] md:w-[70%] lg:w-[40%] max-h-[80vh] rounded-xl bg-white border-gray-700 relative flex flex-col gap-2 border-[1px] p-3 sm:p-4">
+            <h1 class="w-full text-center font-bold text-base sm:text-lg pt-2 title">Add worker to work space</h1>
+            <p class="absolute right-3 top-2 close cursor-pointer text-2xl hover:text-red-500">⨉</p>
+            <div
+                class="cardsContainer flex flex-col justify-center w-full items-center gap-4 overflow-y-auto max-h-[50vh]">
+            </div>
+            <button
+                class="Add bg-green-400 p-3 sm:p-4 rounded-lg font-semibold hover:bg-green-500 transition-all text-sm sm:text-base">Add
+                worker</button>
         </div>
-
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
+    <script>
+        // Mobile sidebar toggle
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const sidebar = document.getElementById('sidebar');
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('mobile-hidden');
+            });
+        }
+
+
+    </script>
+
 </body>
 
 </html>
