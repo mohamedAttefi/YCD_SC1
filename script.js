@@ -207,12 +207,6 @@ function addToArea(AllowedRoles, className, limits, ctrContainer) {
       confirmButtonText: "Okay",
     }).then(() => {
       myfunc();
-      getWhatShouldBeAssigned([
-        securiteContainer,
-        archiveContainer,
-        receptionContainer,
-        serveurContainer,
-      ]);
       Unassign();
       currentCtr.textContent = currentContainer.children.length;
   if (currentCtr.textContent == number) {
@@ -293,7 +287,12 @@ Add.addEventListener("click", () => {
     currentCtr.parentElement.classList.remove("bg-gray-300");
     currentCtr.parentElement.classList.add("bg-red-500");
   }
-
+   getWhatShouldBeAssigned([
+    securiteContainer,
+    archiveContainer,
+    receptionContainer,
+    serveurContainer,
+  ]);
   disponible.textContent = workersContainer.children.length;
 });
 
