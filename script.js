@@ -31,6 +31,7 @@ let worker = null;
 let assignedWorkers = [];
 let ctr = 1;
 let disponible = document.querySelector(".disponible");
+let POPUPINFO = document.querySelector(".popup-info");
 let workersArr = localStorage.getItem("workers")
   ? JSON.parse(localStorage.getItem("workers"))
   : [];
@@ -42,24 +43,24 @@ function ShowPopUp() {
   popupContainer.classList.remove("hidden");
 }
 function AddWorker() {
-  if (
-    !nom.value.match(/[a-zA-Z]{4,}$/) ||
-    !Email.value.match(/^[a-zA-Z]+@gmail.com$/) ||
-    !Telephone.value.match(/^0[5-7]\d{8}$/)
-  ) {
-    Swal.fire({
-      title: "please enter valid inputs",
-      icon: "warning",
-      confirmButtonText: "Okay",
-    }).then(() => {
-      Telephone.value = "";
-      source.value = "";
-      role.value = "";
-      Email.value = "";
-      nom.value = "";
-    });
-    return;
-  }
+  // if (
+  //   !nom.value.match(/[a-zA-Z]{4,}$/) ||
+  //   !Email.value.match(/^[a-zA-Z]+@gmail.com$/) ||
+  //   !Telephone.value.match(/^0[5-7]\d{8}$/)
+  // ) {
+  //   Swal.fire({
+  //     title: "please enter valid inputs",
+  //     icon: "warning",
+  //     confirmButtonText: "Okay",
+  //   }).then(() => {
+  //     Telephone.value = "";
+  //     source.value = "";
+  //     role.value = "";
+  //     Email.value = "";
+  //     nom.value = "";
+  //   });
+  //   return;
+  // }
   let imageSrc;
   if (source.value.trim() == "") {
     imageSrc =
@@ -199,7 +200,7 @@ function addToArea(AllowedRoles, className, limits, ctrContainer) {
   currentWorkers = document.querySelectorAll(".workerCard");
   number = limits;
   currentCtr = ctrContainer;
-  
+
   if (currentContainer.children.length == number) {
     Swal.fire({
       title: "You have reached the max of workers allowed in this room",
@@ -209,10 +210,10 @@ function addToArea(AllowedRoles, className, limits, ctrContainer) {
       myfunc();
       Unassign();
       currentCtr.textContent = currentContainer.children.length;
-  if (currentCtr.textContent == number) {
-    currentCtr.parentElement.classList.remove("bg-gray-300");
-    currentCtr.parentElement.classList.add("bg-red-500");
-  }
+      if (currentCtr.textContent == number) {
+        currentCtr.parentElement.classList.remove("bg-gray-300");
+        currentCtr.parentElement.classList.add("bg-red-500");
+      }
     });
     return;
   }
@@ -287,13 +288,14 @@ Add.addEventListener("click", () => {
     currentCtr.parentElement.classList.remove("bg-gray-300");
     currentCtr.parentElement.classList.add("bg-red-500");
   }
-   getWhatShouldBeAssigned([
+  getWhatShouldBeAssigned([
     securiteContainer,
     archiveContainer,
     receptionContainer,
     serveurContainer,
   ]);
   disponible.textContent = workersContainer.children.length;
+  location.reload();
 });
 
 function getWhoMatchesTheRole(who, arr) {
@@ -350,7 +352,7 @@ function Unassign() {
       if (!workerObj) return;
       console.log(workerObj);
       workersArr.push(workerObj);
-
+      console.log(workerObj.id)
       localStorage.setItem("workers", JSON.stringify(workersArr));
       localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
 
@@ -441,11 +443,14 @@ displayAssigned("personelContainer");
 displayAssigned("archiveContainer");
 displayAssigned("serveurContainer");
 
-function displayInfo(e) {
-  let worker = workersArr.find((ele) => (ele.id = e));
+function displayInfo(i) {
+  workersArr = JSON.parse(localStorage.getItem('workers'))
+  workerToDispaly = workersArr.find((ele) => (ele.id == i));
   let expPart = ``;
-
-  worker.experiences.forEach((exp) => {
+  console.log(i)
+  console.log(workersArr)
+  console.log(workerToDispaly)
+  workerToDispaly.experiences.forEach((exp) => {
     expPart += `
             <br>
              <h3 class="col-span-4 text-center font-bold text-black text-lg uppercase mt-4">Expériences</h3>
@@ -459,24 +464,23 @@ function displayInfo(e) {
         `;
   });
 
-  console.log(worker);
-  popupContainer.innerHTML = `<div class="all-info-popup bg-white w-full max-w-lg rounded-2xl shadow-xl p-4 h-[60vh] overflow-scroll [scrollbar-width:none] border-4 border-black/30">
+  POPUPINFO.innerHTML = `<div class="all-info-popup bg-white w-full max-w-lg rounded-2xl shadow-xl p-4 h-[60vh] overflow-scroll [scrollbar-width:none] border-4 border-black/30">
         <div class="grid grid-cols-[1fr 2fr] gap-5 p-5">
 
             <img src="${
-              worker.Image
+              workerToDispaly.Image
             }" alt="Worker image" class="w-28 h-28 object-cover rounded-xl shadow-md border-amber-300/50 border-4">
 
             <div class="infos gap-2 text-blue-700 text-sm border-[5px] h-[150px] p-3 col-span-1 rounded-xl shadow-lg">
                 <div class="border-b-2 border-blue-100 mb-3">
                     <h3 class="font-bold text-black text-center"><i class="fas fa-person"></i> INFO GLOBAL</h3>
                 </div>
-                <h5><span class="font-semibold">Nom :</span> ${worker.Nom}</h5>
+                <h5><span class="font-semibold">Nom :</span> ${workerToDispaly.Nom}</h5>
                 <h5><span class="font-semibold">Rôle :</span> ${
-                  worker.Role
+                  workerToDispaly.Role
                 }</h5>
                 <h5><span class="font-semibold">Email :</span> ${
-                  worker.Email
+                  workerToDispaly.Email
                 }</h5>
             </div>
 
@@ -486,11 +490,12 @@ function displayInfo(e) {
 
         </div>
     </div>`;
-  popupContainer.classList.remove("hidden");
+  POPUPINFO.classList.remove("hidden");
 }
-popupContainer.addEventListener("click", (e) => {
-  if (e.target === popupContainer || e.key == "Escape") {
-    closePopup();
+POPUPINFO.addEventListener("click", (e) => {
+  if (e.target === POPUPINFO || e.key == "Escape") {
+    POPUPINFO.classList.add("hidden");
+    POPUPINFO.innerHTML = ''
   }
 });
 function ctrCount(currentCtr, currentContainer, number) {
