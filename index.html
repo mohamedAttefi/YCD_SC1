@@ -73,17 +73,19 @@
                 <div class="w-full lg:w-[39%] flex flex-col gap-2 lg:gap-0">
                     <div
                         class="h-[250px] sm:h-[300px] lg:h-[34%] border-[1px] border-black relative flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-2 sm:gap-4 flex-col p-2">
+                        <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrConference">0</span>/4</span>
                         <span class="text-sm sm:text-base text-center">Salle de Conference</span>
                         <button
-                            onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer', 4)"
+                            onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer', 4, ctrConference)"
                             class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                         <div class="w-[95%] h-[55%] flex flex-wrap justify-around conferenceContainer"
                             id="conferenceContainer"></div>
                     </div>
                     <div class="h-[350px] sm:h-[400px] lg:h-[66%] border-[1px] border-black relative flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                         id="reception">
+                        <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrReception">0</span>/2</span>
                         <span class="text-sm sm:text-base text-center">Salle de reception</span>
-                        <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2)"
+                        <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2, ctrReception)"
                             class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                         <div class="w-[95%] h-[55%] flex flex-wrap justify-around receptionContainer"
                             id="receptionContainer"></div>
@@ -93,8 +95,9 @@
                     <div class="h-auto lg:h-[35%] flex flex-col sm:flex-row gap-2 sm:gap-0">
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-2 sm:gap-4 text-white font-bold p-2"
                             id="archive">
+                            <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrArchive">0</span>/1</span>
                             <span class="text-sm sm:text-base text-center">Salle de archive</span>
-                            <button onclick="addToArea(['Manager'], 'archiveContainer', 1)"
+                            <button onclick="addToArea(['Manager'], 'archiveContainer', 1, ctrArchive)"
                                 class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                             <div class="w-[95%] h-[55%] flex flex-wrap justify-around archiveContainer"
                                 id="archiveContainer"></div>
@@ -102,9 +105,10 @@
 
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                             id="securite">
+                            <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrSecurity">0</span>/2</span>
                             <span class="text-sm sm:text-base text-center">Salle de securite</span>
                             <button
-                                onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer', 2)"
+                                onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer', 2, ctrSecurity)"
                                 class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                             <div class="w-[95%] h-[55%] flex flex-wrap justify-around securiteContainer"
                                 id="securiteContainer"></div>
@@ -114,9 +118,10 @@
                     <div class="h-auto lg:h-[34%] flex flex-col sm:flex-row gap-2 sm:gap-0 mt-2 lg:mt-0">
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                             id="personel">
+                            <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrPersonel">0</span>/2</span>
                             <span class="text-sm sm:text-base text-center">Salle de personel</span>
                             <button
-                                onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer', 2)"
+                                onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer', 2, ctrPersonel)"
                                 class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                             <div class="w-[95%] h-[55%] flex flex-wrap justify-around personelContainer"
                                 id="personelContainer"></div>
@@ -124,9 +129,10 @@
 
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                             id="serveur">
+                            <span class="absolute top-1 right-3 p-1 px-2 text-[0.5em] rounded text-black bg-gray-300"><span id="ctrServeur">0</span>/2</span>
                             <span class="text-sm sm:text-base text-center">Salle de serveur</span>
                             <button
-                                onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2)"
+                                onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2, ctrServeur)"
                                 class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                             <div class="w-[95%] h-[55%] flex flex-wrap justify-around serveurContainer"
                                 id="serveurContainer"></div>

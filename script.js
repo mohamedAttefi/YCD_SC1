@@ -17,6 +17,12 @@ let personelContainer = document.querySelector(".personelContainer");
 let closeX = document.querySelector(".close");
 let cardsContainer = document.querySelector(".cardsContainer");
 let experienceContainer = document.querySelector(".experience-container");
+let ctrServeur = document.getElementById("ctrServeur");
+let ctrArchive = document.getElementById("ctrArchive");
+let ctrPersonel = document.getElementById("ctrPersonel");
+let ctrReception = document.getElementById("ctrReception");
+let ctrConference = document.getElementById("ctrConference");
+let ctrSecurity = document.getElementById("ctrSecurity");
 let selected = null;
 let Role = null;
 let container = null;
@@ -24,7 +30,7 @@ let roles = null;
 let worker = null;
 let assignedWorkers = [];
 let ctr = 1;
-let disponible = document.querySelector('.disponible')
+let disponible = document.querySelector(".disponible");
 let workersArr = localStorage.getItem("workers")
   ? JSON.parse(localStorage.getItem("workers"))
   : [];
@@ -134,7 +140,7 @@ function AddWorker() {
   closePopup();
 
   workersContainer.innerHTML += content;
-  disponible.textContent = workersContainer.children.length
+  disponible.textContent = workersContainer.children.length;
 }
 function closePopup() {
   popupContainer.classList.add("hidden");
@@ -151,10 +157,9 @@ function myfunc() {
   cardsContainer.innerHTML = "";
 }
 function AddExperience() {
-  if(experienceContainer.innerHTML == ""){
+  if (experienceContainer.innerHTML == "") {
     experienceContainer.classList.remove("hidden");
-  }
-  else{
+  } else {
     experienceContainer.classList.remove("hidden");
   }
   let content = `<div class='w-full h-full  flex flex-col justify-center items-center '>
@@ -182,17 +187,41 @@ function AddExperience() {
     e.addEventListener("click", () => {
       ctr--;
       e.parentElement.remove();
-      console.log(experienceContainer.children.length)
+      console.log(experienceContainer.children.length);
       if (experienceContainer.children.length == 0)
         experienceContainer.classList.add("hidden");
     });
   });
 }
-function addToArea(AllowedRoles, className, limits) {
+function addToArea(AllowedRoles, className, limits, ctrContainer) {
   currentAllowedRoles = AllowedRoles;
   currentContainer = document.querySelector(`.${className}`);
   currentWorkers = document.querySelectorAll(".workerCard");
   number = limits;
+  currentCtr = ctrContainer;
+  
+  if (currentContainer.children.length == number) {
+    Swal.fire({
+      title: "You have reached the max of workers allowed in this room",
+      icon: "warning",
+      confirmButtonText: "Okay",
+    }).then(() => {
+      myfunc();
+      getWhatShouldBeAssigned([
+        securiteContainer,
+        archiveContainer,
+        receptionContainer,
+        serveurContainer,
+      ]);
+      Unassign();
+      currentCtr.textContent = currentContainer.children.length;
+  if (currentCtr.textContent == number) {
+    currentCtr.parentElement.classList.remove("bg-gray-300");
+    currentCtr.parentElement.classList.add("bg-red-500");
+  }
+    });
+    return;
+  }
   console.log(number);
   console.log(currentWorkers);
   console.log(currentAllowedRoles);
@@ -209,7 +238,6 @@ function addToArea(AllowedRoles, className, limits) {
     addPopupContainer.addEventListener("click", (e) => {
       if (e.target.classList.contains("workerCard")) {
         selected = e.target;
-
         selected.classList.remove("bg-white");
         selected.classList.add("bg-gray-300");
         console.log(selected.children[1].children[0].textContent);
@@ -217,29 +245,13 @@ function addToArea(AllowedRoles, className, limits) {
     });
   });
 }
+
 Add.addEventListener("click", () => {
   console.log(currentContainer.children.length);
   console.log(number);
   if (!currentWorkers || !currentAllowedRoles) return;
   let currentWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
   if (!currentWorker) return;
-  if (currentContainer.children.length == number) {
-    Swal.fire({
-      title: "You have reached the max of workers allowed in this room",
-      icon: "warning",
-      confirmButtonText: "Okay",
-    }).then(() => {
-      myfunc();
-      getWhatShouldBeAssigned([
-        securiteContainer,
-        archiveContainer,
-        receptionContainer,
-        serveurContainer,
-      ]);
-      Unassign();
-    });
-    return;
-  }
   currentWorker.classList.add("assigned");
   currentWorker.remove();
   assignedWorkers.push(currentWorker);
@@ -276,8 +288,15 @@ Add.addEventListener("click", () => {
   ]);
   Unassign();
   console.log(assignedWorkersArr);
-  disponible.textContent = workersContainer.children.length
+  currentCtr.textContent = currentContainer.children.length;
+  if (currentCtr.textContent == number) {
+    currentCtr.parentElement.classList.remove("bg-gray-300");
+    currentCtr.parentElement.classList.add("bg-red-500");
+  }
+
+  disponible.textContent = workersContainer.children.length;
 });
+
 function getWhoMatchesTheRole(who, arr) {
   for (const e of who) {
     if (arr.includes(e.querySelector(".role").textContent)) {
@@ -304,9 +323,21 @@ document.addEventListener("DOMContentLoaded", () => {
     receptionContainer,
     serveurContainer,
   ]);
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 4);
+  ctrCount(ctrArchive, archiveContainer, 4);
+  ctrCount(ctrSecurity, securiteContainer, 4);
+  ctrCount(ctrServeur, serveurContainer, 4);
+  ctrCount(ctrReception, receptionContainer, 4);
 });
 function Unassign() {
-  disponible.textContent = workersContainer.children.length
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 4);
+  ctrCount(ctrArchive, archiveContainer, 4);
+  ctrCount(ctrSecurity, securiteContainer, 4);
+  ctrCount(ctrServeur, serveurContainer, 4);
+  ctrCount(ctrReception, receptionContainer, 4);
+  disponible.textContent = workersContainer.children.length;
   let unassignBtns = document.querySelectorAll(".unassign");
   unassignBtns.forEach((btn) => {
     btn.onclick = () => {
@@ -342,9 +373,14 @@ function Unassign() {
               <p class='text-xs email'>${workerObj.Email}</p>
           </div>
       </div>`;
-      disponible.textContent = workersContainer.children.length
+      ctrCount(ctrConference, conferenceContainer, 4);
+      ctrCount(ctrPersonel, personelContainer, 4);
+      ctrCount(ctrArchive, archiveContainer, 4);
+      ctrCount(ctrSecurity, securiteContainer, 4);
+      ctrCount(ctrServeur, serveurContainer, 4);
+      ctrCount(ctrReception, receptionContainer, 4);
+      disponible.textContent = workersContainer.children.length;
     };
-    
   });
 }
 
@@ -364,6 +400,12 @@ function displayUnassigned() {
     workersContainer.innerHTML += content;
     console.log(workersArr);
   });
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 4);
+  ctrCount(ctrArchive, archiveContainer, 4);
+  ctrCount(ctrSecurity, securiteContainer, 4);
+  ctrCount(ctrServeur, serveurContainer, 4);
+  ctrCount(ctrReception, receptionContainer, 4);
 }
 displayUnassigned();
 function displayAssigned(className) {
@@ -385,6 +427,12 @@ function displayAssigned(className) {
   });
 
   Unassign();
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 2);
+  ctrCount(ctrArchive, archiveContainer, 1);
+  ctrCount(ctrSecurity, securiteContainer, 2);
+  ctrCount(ctrServeur, serveurContainer, 2);
+  ctrCount(ctrReception, receptionContainer, 2);
 }
 
 displayAssigned("conferenceContainer");
@@ -441,8 +489,24 @@ function displayInfo(e) {
     </div>`;
   popupContainer.classList.remove("hidden");
 }
-popupContainer.addEventListener('click', (e)=>{
-  if(e.target === popupContainer || e.key == 'Escape'){
-    closePopup()
+popupContainer.addEventListener("click", (e) => {
+  if (e.target === popupContainer || e.key == "Escape") {
+    closePopup();
   }
-})
+});
+function ctrCount(currentCtr, currentContainer, number) {
+  currentCtr.textContent = currentContainer.children.length;
+  if (currentCtr.textContent == number) {
+    currentCtr.parentElement.classList.remove("bg-gray-300");
+    currentCtr.parentElement.classList.add("bg-red-500");
+  } else {
+    currentCtr.parentElement.classList.add("bg-gray-300");
+    currentCtr.parentElement.classList.remove("bg-red-500");
+  }
+}
+ctrCount(ctrConference, conferenceContainer, 4);
+ctrCount(ctrPersonel, personelContainer, 4);
+ctrCount(ctrArchive, archiveContainer, 4);
+ctrCount(ctrSecurity, securiteContainer, 4);
+ctrCount(ctrServeur, serveurContainer, 4);
+ctrCount(ctrReception, receptionContainer, 4);
