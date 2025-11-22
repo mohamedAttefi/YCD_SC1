@@ -309,10 +309,10 @@ function getWhatShouldBeAssigned(restreintes) {
   restreintes.forEach((restreinte) => {
     if (restreinte.innerHTML == "") {
       restreinte.parentElement.classList.remove("bg-[rgb(0,0,0,0.6)]");
-      restreinte.parentElement.classList.add("bg-[rgb(255,0,0,0.5)]");
+      restreinte.parentElement.classList.add("bg-red-500");
     } else {
       restreinte.parentElement.classList.add("bg-[rgb(0,0,0,0.6)]");
-      restreinte.parentElement.classList.remove("bg-[rgb(255,0,0,0.5)]");
+      restreinte.parentElement.classList.remove("bg-500");
     }
   });
 }
