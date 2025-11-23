@@ -61,13 +61,12 @@ function AddWorker() {
     });
     return;
   }
-  let imageSrc;
   worker = {
     id: Date.now(),
     Nom: nom.value,
     Email: Email.value,
     Role: role.value,
-    Image: imageSrc,
+    Image: 'https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg',
     Telephone: Telephone.value,
     isAssigned: false,
     experiences: [],
@@ -138,8 +137,13 @@ function AddWorker() {
   img.onerror = () => {
     img.src =
       "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
+      
   };
-  worker.Image = img.src
+  worker = {
+    ...worker,
+    Image: img.src
+  }
+  console.log(img.src)
   console.log(worker.Image)
   workersArr.push(worker);
   localStorage.setItem("workers", JSON.stringify(workersArr));
