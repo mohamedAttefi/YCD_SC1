@@ -258,8 +258,8 @@ Add.addEventListener("click", () => {
   currentWorker.classList.add("assigned");
   currentWorker.remove();
   assignedWorkers.push(currentWorker);
-  let assignedWorker = workersArr.find((e) => e.id == currentWorker.id);
-  workersArr = workersArr.filter((e) => e.id != currentWorker.id);
+  let assignedWorker = workersArr.find((e) => e.Nom == currentWorker.children[1].children[0].textContent);
+  workersArr = workersArr.filter((e) => e.Nom != currentWorker.children[1].children[0].textContent);
   console.log(workersArr);
 
   console.log(assignedWorker);
@@ -270,6 +270,7 @@ Add.addEventListener("click", () => {
   localStorage.setItem("workers", JSON.stringify(workersArr));
   localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
   let div = document.createElement("div");
+  
   let content = `
       <p class='text-black text-xs font-light'>${currentWorker.children[1].children[0].textContent}</p>
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
@@ -348,8 +349,8 @@ function Unassign() {
     btn.onclick = () => {
       let card = btn.closest(".workerCard");
       console.log(assignedWorkersArr);
-      let workerObj = assignedWorkersArr.find((w) => w.id == card.id);
-      assignedWorkersArr = assignedWorkersArr.filter((w) => w.id != card.id);
+      let workerObj = assignedWorkersArr.find((w) => w.Nom == card.querySelector('p').textContent);
+      assignedWorkersArr = assignedWorkersArr.filter((w) => w.Nom != card.querySelector('p').textContent);
       if (!workerObj) return;
       console.log(workerObj);
       workersArr.push(workerObj);
