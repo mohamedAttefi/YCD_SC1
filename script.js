@@ -17,51 +17,106 @@ let personelContainer = document.querySelector(".personelContainer");
 let closeX = document.querySelector(".close");
 let cardsContainer = document.querySelector(".cardsContainer");
 let experienceContainer = document.querySelector(".experience-container");
+let ctrServeur = document.getElementById("ctrServeur");
+let ctrArchive = document.getElementById("ctrArchive");
+let ctrPersonel = document.getElementById("ctrPersonel");
+let ctrReception = document.getElementById("ctrReception");
+let ctrConference = document.getElementById("ctrConference");
+let ctrSecurity = document.getElementById("ctrSecurity");
 let selected = null;
 let Role = null;
 let container = null;
 let roles = null;
 let worker = null;
-
+let assignedWorkers = [];
+let ctr = 1;
+let disponible = document.querySelector(".disponible");
+let POPUPINFO = document.querySelector(".popup-info");
 let workersArr = localStorage.getItem("workers")
   ? JSON.parse(localStorage.getItem("workers"))
   : [];
-
-let ctr = 1;
-let x = 0;
-
+let assignedWorkersArr = localStorage.getItem("assigned")
+  ? JSON.parse(localStorage.getItem("assigned"))
+  : [];
+let unassignBtns = null;
 function ShowPopUp() {
   popupContainer.classList.remove("hidden");
 }
-
 function AddWorker() {
+  if (
+    !nom.value.match(/[a-zA-Z]{4,}$/) ||
+    !Email.value.match(/^[a-zA-Z]+@gmail\.com$/) ||
+    !Telephone.value.match(/^0[5-7]\d{8}$/)
+  ) {
+    Swal.fire({
+      title: "please enter valid inputs",
+      icon: "warning",
+      confirmButtonText: "Okay",
+    }).then(() => {
+      Telephone.value = "";
+      source.value = "";
+      role.value = "";
+      Email.value = "";
+      nom.value = "";
+    });
+    return;
+  }
   worker = {
+    id: Date.now(),
     Nom: nom.value,
     Email: Email.value,
     Role: role.value,
-    Image: source.value,
+    Image: 'https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg',
     Telephone: Telephone.value,
-    isAssigned : false,
+    isAssigned: false,
     experiences: [],
   };
-
+  console.log(worker);
+  console.log(worker.Image);
   let content = `
-    <div class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+    <div id='' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
         <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
-            <img src='${worker.Image}' alt='${worker.Nom} image'>  
+            <img src='${worker.Image}' id='img-${worker.id}' alt='${worker.Nom} image'>  
         </div>
         <div class=''>
-            <p class='font-semibold text-sm'>${worker.Nom}</p>
+            <p class='font-semibold text-sm nom'>${worker.Nom}</p>
             <p class='text-xs role'>${worker.Role}</p>
-            <p class='text-xs'>${worker.Email}</p>
+            <p class='text-xs email'>${worker.Email}</p>
         </div>
     </div>`;
-
-  workersContainer.innerHTML += content;
-
   let dateDebut = document.querySelectorAll(".debut");
   let dateFin = document.querySelectorAll(".fin");
   let Entreprise = document.querySelectorAll(".Entreprise");
+  console.log(!dateDebut.value > Date.now());
+  for (let i = 0; i < dateDebut.length; i++) {
+    let DebutDate = new Date(dateDebut[i].value).getTime();
+    let FinDate = new Date(dateFin[i].value).getTime();
+    let today = Date.now();
+    if (!dateDebut[i].value || !dateFin[i].value) {
+      Swal.fire({
+        title: "Please fill both start and end dates.",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+    if (DebutDate >= FinDate) {
+      Swal.fire({
+        title: "Start date must be before end date.",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+    if (DebutDate > today || FinDate > today) {
+      Swal.fire({
+        title: "Experience dates cannot be in the future.",
+        icon: "warning",
+        confirmButtonText: "Okay",
+      });
+      return;
+    }
+  }
 
   if (dateDebut && dateFin && Entreprise) {
     for (let i = 0; i < dateDebut.length; i++) {
@@ -72,15 +127,32 @@ function AddWorker() {
       });
     }
   }
-
-  workersArr.push(worker);
+  console.log(workersArr);
 
   closePopup();
 
-  console.log(workersArr);
-  ctr = 1;
-}
+  workersContainer.innerHTML += content;
+  let img = document.querySelector(`#img-${worker.id}`);
 
+  img.onerror = () => {
+    img.src =
+      "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
+<<<<<<< HEAD
+
+=======
+      
+>>>>>>> 62ba85778813def6a0f9735011cca108982368bd
+  };
+  worker = {
+    ...worker,
+    Image: img.src
+  }
+  console.log(img.src)
+  console.log(worker.Image)
+  workersArr.push(worker);
+  localStorage.setItem("workers", JSON.stringify(workersArr));
+  disponible.textContent = workersContainer.children.length;
+}
 function closePopup() {
   popupContainer.classList.add("hidden");
   let inputs = document.querySelectorAll("input");
@@ -90,15 +162,17 @@ function closePopup() {
   experienceContainer.innerHTML = "";
 }
 closeX.addEventListener("click", () => myfunc());
-
 function myfunc() {
   addPopupContainer.classList.add("hidden");
   console.log(addPopupContainer.classList);
   cardsContainer.innerHTML = "";
 }
-
 function AddExperience() {
-  experienceContainer.classList.remove("hidden");
+  if (experienceContainer.innerHTML == "") {
+    experienceContainer.classList.remove("hidden");
+  } else {
+    experienceContainer.classList.remove("hidden");
+  }
   let content = `<div class='w-full h-full  flex flex-col justify-center items-center '>
   <h1 class="text-lg font-bold">Experience${ctr}</h1>
             <div class=" w-[80%] h-[15vh] flex flex-col gap-5">
@@ -124,101 +198,332 @@ function AddExperience() {
     e.addEventListener("click", () => {
       ctr--;
       e.parentElement.remove();
-      if (experienceContainer.innerHTML == "")
+      console.log(experienceContainer.children.length);
+      if (experienceContainer.children.length == 0)
         experienceContainer.classList.add("hidden");
     });
   });
 }
-function addToArea(AllowedRoles, className) {
+function addToArea(AllowedRoles, className, limits, ctrContainer) {
   currentAllowedRoles = AllowedRoles;
   currentContainer = document.querySelector(`.${className}`);
   currentWorkers = document.querySelectorAll(".workerCard");
+  number = limits;
+  currentCtr = ctrContainer;
 
+  if (currentContainer.children.length == number) {
+    Swal.fire({
+      title: "You have reached the max of workers allowed in this room",
+      icon: "warning",
+      confirmButtonText: "Okay",
+    }).then(() => {
+      myfunc();
+      Unassign();
+      currentCtr.textContent = currentContainer.children.length;
+      if (currentCtr.textContent == number) {
+        currentCtr.parentElement.classList.remove("bg-gray-300");
+        currentCtr.parentElement.classList.add("bg-red-500");
+      }
+    });
+    return;
+  }
+  console.log(number);
+  console.log(currentWorkers);
+  console.log(currentAllowedRoles);
   addPopupContainer.classList.remove("hidden");
-
   currentWorkers.forEach((worker) => {
     Role = worker.querySelector(".role").textContent;
     console.log(Role);
-    console.log(roles);
-    
     if (currentAllowedRoles.includes(Role)) {
       cardsContainer.innerHTML += worker.outerHTML;
     }
-
-
+    addPopupContainer.querySelectorAll(".workerCard").forEach((child) => {
+      child.removeAttribute("onclick");
+    });
     addPopupContainer.addEventListener("click", (e) => {
-      if (e.target.classList.contains("workerCard")) {
-        selected = e.target;
-        selected.classList.remove("bg-white");
+      const card = e.target.closest(".workerCard");
+      if (card) {
+        addPopupContainer.querySelectorAll(".workerCard").forEach((c) => {
+          c.classList.remove("bg-gray-300");
+        });
+        selected = card;
         selected.classList.add("bg-gray-300");
-        console.log(selected.children[1].children[0].textContent);
       }
     });
   });
-  unassignBtns = document.querySelectorAll('unassign')
-  unassignBtns.forEach((btn)=>{
-  btn.addEventListener('clock', ()=>{
-    console.log(btn.parentElement)
-  })
-})
 }
 
 Add.addEventListener("click", () => {
+  console.log(currentContainer.children.length);
+  console.log(number);
   if (!currentWorkers || !currentAllowedRoles) return;
+  let currentWorker = selected;
+  if (!currentWorker) return;
+  currentWorker.classList.add("assigned");
+  currentWorker.remove();
+  assignedWorkers.push(currentWorker);
+  let assignedWorker = workersArr.find((e) => e.id == currentWorker.id);
+  workersArr = workersArr.filter(
+    (e) => e.id != currentWorker.id
+  );
+  console.log(workersArr);
 
-  let currenrWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
-  if (!worker) return;
-
-  currenrWorker.remove();
-  isAssigned = true;
-   worker = {
-    ...worker,
-    isAssigned: isAssigned
-  }
+  console.log(assignedWorker);
+  assignedWorkersArr.push({
+    ...assignedWorker,
+    container: currentContainer.id,
+  });
+  localStorage.setItem("workers", JSON.stringify(workersArr));
+  localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
+  let div = document.createElement("div");
   let content = `
-    <div class='bg-white workerCard flex items-center relative p-2 rounded h-fit shadow-[0px_0px_5px_black] w-[40%] gap-2'>
-      <p class='text-black text-xs font-light'>${currenrWorker.children[1].children[0].textContent}</p>
-      <p class="absolute right-1 text-sm" id='unassign'>❌</p>
-    </div>
+      <p class='text-black text-xs font-light'>${currentWorker.children[1].children[0].textContent}</p>
+      <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
-  currentContainer.innerHTML += content;
+  div.classList =
+    "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+  div.innerHTML = content;
+  currentContainer.appendChild(div);
   myfunc();
-  getWhatShouldBeAssigned([securiteContainer, archiveContainer, receptionContainer, serveurContainer])
-  getWhosAssigned()
-  
+  getWhatShouldBeAssigned([
+    securiteContainer,
+    archiveContainer,
+    receptionContainer,
+    serveurContainer,
+  ]);
+  Unassign();
+  console.log(assignedWorkersArr);
+  currentCtr.textContent = currentContainer.children.length;
+  if (currentCtr.textContent == number) {
+    currentCtr.parentElement.classList.remove("bg-gray-300");
+    currentCtr.parentElement.classList.add("bg-red-500");
+  }
+  getWhatShouldBeAssigned([
+    securiteContainer,
+    archiveContainer,
+    receptionContainer,
+    serveurContainer,
+  ]);
+  disponible.textContent = workersContainer.children.length;
+  location.reload();
 });
 
 function getWhoMatchesTheRole(who, arr) {
-  for (const e of who) {
+  for (let e of who) {
     if (arr.includes(e.querySelector(".role").textContent)) {
       return e;
     }
   }
   return null;
 }
+function getWhatShouldBeAssigned(restreintes) {
+  restreintes.forEach((restreinte) => {
+    if (restreinte.innerHTML == "") {
+      restreinte.parentElement.classList.remove("bg-[rgb(0,0,0,0.6)]");
+      restreinte.parentElement.classList.add("bg-red-500");
+    } else {
+      restreinte.parentElement.classList.add("bg-[rgb(0,0,0,0.6)]");
+      restreinte.parentElement.classList.remove("bg-500");
+    }
+  });
+}
+document.addEventListener("DOMContentLoaded", () => {
+  getWhatShouldBeAssigned([
+    securiteContainer,
+    archiveContainer,
+    receptionContainer,
+    serveurContainer,
+  ]);
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 4);
+  ctrCount(ctrArchive, archiveContainer, 4);
+  ctrCount(ctrSecurity, securiteContainer, 4);
+  ctrCount(ctrServeur, serveurContainer, 4);
+  ctrCount(ctrReception, receptionContainer, 4);
+});
+function Unassign() {
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 2);
+  ctrCount(ctrArchive, archiveContainer, 1);
+  ctrCount(ctrSecurity, securiteContainer, 2);
+  ctrCount(ctrServeur, serveurContainer, 2);
+  ctrCount(ctrReception, receptionContainer, 2);
+  disponible.textContent = workersContainer.children.length;
+  let unassignBtns = document.querySelectorAll(".unassign");
+  unassignBtns.forEach((btn) => {
+    btn.onclick = () => {
+      let card = btn.closest(".workerCard");
+      console.log(assignedWorkersArr);
+      let workerObj = assignedWorkersArr.find((w) => w.id == card.id);
+      assignedWorkersArr = assignedWorkersArr.filter(
+        (w) => w.id != card.id
+      );
+      if (!workerObj) return;
+      console.log(workerObj);
+      workersArr.push(workerObj);
+      console.log(workerObj.id);
+      localStorage.setItem("workers", JSON.stringify(workersArr));
+      localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
 
-function getWhatShouldBeAssigned(restreintes){
-  restreintes.forEach((restreinte) =>{
-    
-    if(restreinte.innerHTML.trim() == ''){
-      console.log(restreinte)
-      restreinte.parentElement.classList.remove('bg-[rgb(0,0,0,0.6)]')
-      restreinte.parentElement.classList.add('bg-[rgb(255,0,0,0.3)]')
-    }
-    else{
-      restreinte.parentElement.classList.add('bg-[rgb(0,0,0,0.6)]')
-      restreinte.parentElement.classList.remove('bg-[rgb(255,0,0,0.3)]')
-    }
-  })
+      card.remove();
+      getWhatShouldBeAssigned([
+        securiteContainer,
+        archiveContainer,
+        receptionContainer,
+        serveurContainer,
+      ]);
+      console.log(workerObj.Image)
+      workersContainer.innerHTML += `
+      <div id='${workerObj.id}' onclick='displayInfo(${workerObj.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+          <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
+              <img src='${workerObj.Image}' alt='${workerObj.Nom} image'>
+          </div>
+          <div class=''>
+              <p class='font-semibold text-sm nom'>${workerObj.Nom}</p>
+              <p class='text-xs role'>${workerObj.Role}</p>
+              <p class='text-xs email'>${workerObj.Email}</p>
+          </div>
+      </div>`;
+      ctrCount(ctrConference, conferenceContainer, 4);
+      ctrCount(ctrPersonel, personelContainer, 2);
+      ctrCount(ctrArchive, archiveContainer, 1);
+      ctrCount(ctrSecurity, securiteContainer, 2);
+      ctrCount(ctrServeur, serveurContainer, 2);
+      ctrCount(ctrReception, receptionContainer, 2);
+      disponible.textContent = workersContainer.children.length;
+    };
+  });
 }
 
-getWhatShouldBeAssigned([securiteContainer, archiveContainer, receptionContainer, serveurContainer])
+function displayUnassigned() {
+  workersArr.forEach((worker) => {
+    let content = `
+    <div id='${worker.id}' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+        <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
+            <img src='${worker.Image}' alt='${worker.Nom} image'>  
+        </div>
+        <div class=''>
+            <p class='font-semibold text-sm nom'>${worker.Nom}</p>
+            <p class='text-xs role'>${worker.Role}</p>
+            <p class='text-xs email'>${worker.Email}</p>
+        </div>
+    </div>`;
+    workersContainer.innerHTML += content;
+    console.log(workersArr);
+  });
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 2);
+  ctrCount(ctrArchive, archiveContainer, 1);
+  ctrCount(ctrSecurity, securiteContainer, 2);
+  ctrCount(ctrServeur, serveurContainer, 2);
+  ctrCount(ctrReception, receptionContainer, 2);
+}
+displayUnassigned();
+function displayAssigned(className) {
+  let container = document.querySelector(`.${className}`);
 
-function getWhosAssigned(){
-  if(worker.isAssigned){
-    console.log('hello')
-    return worker
+  assignedWorkersArr.forEach((worker) => {
+    if (worker.container == className) {
+      console.log(worker);
+      let div = document.createElement("div");
+      let content = `
+      <p class='text-black text-xs font-light'>${worker.Nom}</p>
+      <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
+  `;
+      div.classList =
+        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+      div.innerHTML = content;
+      container.appendChild(div);
+    }
+  });
+
+  Unassign();
+  ctrCount(ctrConference, conferenceContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 2);
+  ctrCount(ctrArchive, archiveContainer, 1);
+  ctrCount(ctrSecurity, securiteContainer, 2);
+  ctrCount(ctrServeur, serveurContainer, 2);
+  ctrCount(ctrReception, receptionContainer, 2);
+}
+
+displayAssigned("conferenceContainer");
+displayAssigned("receptionContainer");
+displayAssigned("securiteContainer");
+displayAssigned("personelContainer");
+displayAssigned("archiveContainer");
+displayAssigned("serveurContainer");
+
+function displayInfo(i) {
+  workersArr = JSON.parse(localStorage.getItem("workers"));
+  workerToDispaly = workersArr.find((ele) => ele.id == i);
+  let expPart = ``;
+  console.log(i);
+  console.log(workersArr);
+  console.log(workerToDispaly);
+  workerToDispaly.experiences.forEach((exp) => {
+    expPart += `
+            <br>
+             <h3 class="col-span-4 text-center font-bold text-black text-lg uppercase mt-4">Expériences</h3>
+        <div class="expCard border-2 border-green-300 flex flex-wrap bg-green-50 rounded-xl p-4 shadow-lg">
+            <div class="experience text-sm mt-3">
+                <p><span class="font-semibold">Entreprise :</span> ${exp.Entreprise}</p>
+                <p><span class="font-semibold">Début :</span> ${exp.dateDeDebut}</p>
+                <p><span class="font-semibold">Fin :</span> ${exp.dateDeFin}</p>
+            </div>
+        </div>
+        `;
+  });
+
+  POPUPINFO.innerHTML = `<div class="all-info-popup bg-white w-full max-w-lg rounded-2xl shadow-xl p-4 h-[60vh] overflow-scroll [scrollbar-width:none] border-4 border-black/30">
+        <div class="grid grid-cols-[1fr 2fr] gap-5 p-5">
+
+            <img src="${
+              workerToDispaly.Image
+            }" alt="Worker image" class="w-28 h-28 object-cover rounded-xl shadow-md border-amber-300/50 border-4">
+
+            <div class="infos gap-2 text-blue-700 text-sm border-[5px] h-[150px] p-3 col-span-1 rounded-xl shadow-lg">
+                <div class="border-b-2 border-blue-100 mb-3">
+                    <h3 class="font-bold text-black text-center"><i class="fas fa-person"></i> INFO GLOBAL</h3>
+                </div>
+                <h5><span class="font-semibold">Nom :</span> ${
+                  workerToDispaly.Nom
+                }</h5>
+                <h5><span class="font-semibold">Rôle :</span> ${
+                  workerToDispaly.Role
+                }</h5>
+                <h5><span class="font-semibold">Email :</span> ${
+                  workerToDispaly.Email
+                }</h5>
+            </div>
+
+            <div class="col-span-2">
+                ${expPart || "No Experiences"}
+            </div>
+
+        </div>
+    </div>`;
+  POPUPINFO.classList.remove("hidden");
+  console.log(workerToDispaly.Image)
+}
+POPUPINFO.addEventListener("click", (e) => {
+  if (e.target === POPUPINFO || e.key == "Escape") {
+    POPUPINFO.classList.add("hidden");
+    POPUPINFO.innerHTML = "";
+  }
+});
+function ctrCount(currentCtr, currentContainer, number) {
+  currentCtr.textContent = currentContainer.children.length;
+  if (currentCtr.textContent == number) {
+    currentCtr.parentElement.classList.remove("bg-gray-300");
+    currentCtr.parentElement.classList.add("bg-red-500");
+  } else {
+    currentCtr.parentElement.classList.add("bg-gray-300");
+    currentCtr.parentElement.classList.remove("bg-red-500");
   }
 }
-
-
+ctrCount(ctrConference, conferenceContainer, 4);
+ctrCount(ctrPersonel, personelContainer, 4);
+ctrCount(ctrArchive, archiveContainer, 4);
+ctrCount(ctrSecurity, securiteContainer, 4);
+ctrCount(ctrServeur, serveurContainer, 4);
+ctrCount(ctrReception, receptionContainer, 4);
