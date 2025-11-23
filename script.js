@@ -231,11 +231,13 @@ function addToArea(AllowedRoles, className, limits, ctrContainer) {
       child.removeAttribute("onclick");
     });
     addPopupContainer.addEventListener("click", (e) => {
-      if (e.target.classList.contains("workerCard")) {
-        selected = e.target;
-        selected.classList.remove("bg-white");
+      const card = e.target.closest(".workerCard");
+      if (card) {
+        addPopupContainer.querySelectorAll(".workerCard").forEach((c) => {
+          c.classList.remove("bg-gray-300");
+        });
+        selected = card;
         selected.classList.add("bg-gray-300");
-        console.log(selected.children[1].children[0].textContent);
       }
     });
   });
@@ -245,14 +247,12 @@ Add.addEventListener("click", () => {
   console.log(currentContainer.children.length);
   console.log(number);
   if (!currentWorkers || !currentAllowedRoles) return;
-  let currentWorker = getWhoMatchesTheRole(currentWorkers, currentAllowedRoles);
+  let currentWorker = selected;
   if (!currentWorker) return;
   currentWorker.classList.add("assigned");
   currentWorker.remove();
   assignedWorkers.push(currentWorker);
-  let assignedWorker = workersArr.find(
-    (e) => e.Nom == currentWorker.querySelector(".nom").textContent
-  );
+  let assignedWorker = workersArr.find((e) => e.id == currentWorker.id);
   workersArr = workersArr.filter(
     (e) => e.Nom != currentWorker.querySelector(".nom").textContent
   );
@@ -299,7 +299,7 @@ Add.addEventListener("click", () => {
 });
 
 function getWhoMatchesTheRole(who, arr) {
-  for (const e of who) {
+  for (let e of who) {
     if (arr.includes(e.querySelector(".role").textContent)) {
       return e;
     }
@@ -352,7 +352,7 @@ function Unassign() {
       if (!workerObj) return;
       console.log(workerObj);
       workersArr.push(workerObj);
-      console.log(workerObj.id)
+      console.log(workerObj.id);
       localStorage.setItem("workers", JSON.stringify(workersArr));
       localStorage.setItem("assigned", JSON.stringify(assignedWorkersArr));
 
@@ -444,12 +444,12 @@ displayAssigned("archiveContainer");
 displayAssigned("serveurContainer");
 
 function displayInfo(i) {
-  workersArr = JSON.parse(localStorage.getItem('workers'))
-  workerToDispaly = workersArr.find((ele) => (ele.id == i));
+  workersArr = JSON.parse(localStorage.getItem("workers"));
+  workerToDispaly = workersArr.find((ele) => ele.id == i);
   let expPart = ``;
-  console.log(i)
-  console.log(workersArr)
-  console.log(workerToDispaly)
+  console.log(i);
+  console.log(workersArr);
+  console.log(workerToDispaly);
   workerToDispaly.experiences.forEach((exp) => {
     expPart += `
             <br>
@@ -475,7 +475,9 @@ function displayInfo(i) {
                 <div class="border-b-2 border-blue-100 mb-3">
                     <h3 class="font-bold text-black text-center"><i class="fas fa-person"></i> INFO GLOBAL</h3>
                 </div>
-                <h5><span class="font-semibold">Nom :</span> ${workerToDispaly.Nom}</h5>
+                <h5><span class="font-semibold">Nom :</span> ${
+                  workerToDispaly.Nom
+                }</h5>
                 <h5><span class="font-semibold">Rôle :</span> ${
                   workerToDispaly.Role
                 }</h5>
@@ -495,7 +497,7 @@ function displayInfo(i) {
 POPUPINFO.addEventListener("click", (e) => {
   if (e.target === POPUPINFO || e.key == "Escape") {
     POPUPINFO.classList.add("hidden");
-    POPUPINFO.innerHTML = ''
+    POPUPINFO.innerHTML = "";
   }
 });
 function ctrCount(currentCtr, currentContainer, number) {
