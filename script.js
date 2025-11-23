@@ -334,11 +334,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 function Unassign() {
   ctrCount(ctrConference, conferenceContainer, 4);
-  ctrCount(ctrPersonel, personelContainer, 4);
-  ctrCount(ctrArchive, archiveContainer, 4);
-  ctrCount(ctrSecurity, securiteContainer, 4);
-  ctrCount(ctrServeur, serveurContainer, 4);
-  ctrCount(ctrReception, receptionContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 2);
+  ctrCount(ctrArchive, archiveContainer, 1);
+  ctrCount(ctrSecurity, securiteContainer, 2);
+  ctrCount(ctrServeur, serveurContainer, 2);
+  ctrCount(ctrReception, receptionContainer, 2);
   disponible.textContent = workersContainer.children.length;
   let unassignBtns = document.querySelectorAll(".unassign");
   unassignBtns.forEach((btn) => {
@@ -376,11 +376,11 @@ function Unassign() {
           </div>
       </div>`;
       ctrCount(ctrConference, conferenceContainer, 4);
-      ctrCount(ctrPersonel, personelContainer, 4);
-      ctrCount(ctrArchive, archiveContainer, 4);
-      ctrCount(ctrSecurity, securiteContainer, 4);
-      ctrCount(ctrServeur, serveurContainer, 4);
-      ctrCount(ctrReception, receptionContainer, 4);
+      ctrCount(ctrPersonel, personelContainer, 2);
+      ctrCount(ctrArchive, archiveContainer, 1);
+      ctrCount(ctrSecurity, securiteContainer, 2);
+      ctrCount(ctrServeur, serveurContainer, 2);
+      ctrCount(ctrReception, receptionContainer, 2);
       disponible.textContent = workersContainer.children.length;
     };
   });
@@ -403,11 +403,11 @@ function displayUnassigned() {
     console.log(workersArr);
   });
   ctrCount(ctrConference, conferenceContainer, 4);
-  ctrCount(ctrPersonel, personelContainer, 4);
-  ctrCount(ctrArchive, archiveContainer, 4);
-  ctrCount(ctrSecurity, securiteContainer, 4);
-  ctrCount(ctrServeur, serveurContainer, 4);
-  ctrCount(ctrReception, receptionContainer, 4);
+  ctrCount(ctrPersonel, personelContainer, 2);
+  ctrCount(ctrArchive, archiveContainer, 1);
+  ctrCount(ctrSecurity, securiteContainer, 2);
+  ctrCount(ctrServeur, serveurContainer, 2);
+  ctrCount(ctrReception, receptionContainer, 2);
 }
 displayUnassigned();
 function displayAssigned(className) {
