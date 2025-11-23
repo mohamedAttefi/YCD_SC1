@@ -62,12 +62,6 @@ function AddWorker() {
     return;
   }
   let imageSrc;
-  if (source.value.trim() == "") {
-    imageSrc =
-      "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
-  } else {
-    imageSrc = source.value;
-  }
   worker = {
     id: Date.now(),
     Nom: nom.value,
@@ -81,9 +75,9 @@ function AddWorker() {
   console.log(worker);
   console.log(worker.Image);
   let content = `
-    <div id='${worker.id}' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
+    <div id='' onclick='displayInfo(${worker.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
         <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
-            <img src='${worker.Image}' alt='${worker.Nom} image'>  
+            <img src='${worker.Image}' id='img-${worker.id}' alt='${worker.Nom} image'>  
         </div>
         <div class=''>
             <p class='font-semibold text-sm nom'>${worker.Nom}</p>
@@ -91,7 +85,6 @@ function AddWorker() {
             <p class='text-xs email'>${worker.Email}</p>
         </div>
     </div>`;
-
   let dateDebut = document.querySelectorAll(".debut");
   let dateFin = document.querySelectorAll(".fin");
   let Entreprise = document.querySelectorAll(".Entreprise");
@@ -141,6 +134,12 @@ function AddWorker() {
   closePopup();
 
   workersContainer.innerHTML += content;
+  let img = document.querySelector(`#img-${worker.id}`);
+
+  img.onerror = () => {
+    img.src =
+      "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
+  };
   disponible.textContent = workersContainer.children.length;
 }
 function closePopup() {
