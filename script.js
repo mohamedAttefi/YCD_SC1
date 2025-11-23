@@ -66,7 +66,8 @@ function AddWorker() {
     Nom: nom.value,
     Email: Email.value,
     Role: role.value,
-    Image: 'https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg',
+    Image:
+      "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg",
     Telephone: Telephone.value,
     isAssigned: false,
     experiences: [],
@@ -137,18 +138,13 @@ function AddWorker() {
   img.onerror = () => {
     img.src =
       "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
-<<<<<<< HEAD
-
-=======
-      
->>>>>>> 62ba85778813def6a0f9735011cca108982368bd
   };
   worker = {
     ...worker,
-    Image: img.src
-  }
-  console.log(img.src)
-  console.log(worker.Image)
+    Image: img.src,
+  };
+  console.log(img.src);
+  console.log(worker.Image);
   workersArr.push(worker);
   localStorage.setItem("workers", JSON.stringify(workersArr));
   disponible.textContent = workersContainer.children.length;
@@ -263,9 +259,7 @@ Add.addEventListener("click", () => {
   currentWorker.remove();
   assignedWorkers.push(currentWorker);
   let assignedWorker = workersArr.find((e) => e.id == currentWorker.id);
-  workersArr = workersArr.filter(
-    (e) => e.id != currentWorker.id
-  );
+  workersArr = workersArr.filter((e) => e.id != currentWorker.id);
   console.log(workersArr);
 
   console.log(assignedWorker);
@@ -355,9 +349,7 @@ function Unassign() {
       let card = btn.closest(".workerCard");
       console.log(assignedWorkersArr);
       let workerObj = assignedWorkersArr.find((w) => w.id == card.id);
-      assignedWorkersArr = assignedWorkersArr.filter(
-        (w) => w.id != card.id
-      );
+      assignedWorkersArr = assignedWorkersArr.filter((w) => w.id != card.id);
       if (!workerObj) return;
       console.log(workerObj);
       workersArr.push(workerObj);
@@ -372,7 +364,7 @@ function Unassign() {
         receptionContainer,
         serveurContainer,
       ]);
-      console.log(workerObj.Image)
+      console.log(workerObj.Image);
       workersContainer.innerHTML += `
       <div id='${workerObj.id}' onclick='displayInfo(${workerObj.id})' class='workerCard flex p-2 rounded shadow-[0px_0px_4px_rgb(0,0,0,0.5)] w-[95%] gap-2 self-center'>
           <div class='w-[10vh] h-[10vh] flex items-center rounded justify-center overflow-hidden'>
@@ -424,16 +416,18 @@ function displayAssigned(className) {
 
   assignedWorkersArr.forEach((worker) => {
     if (worker.container == className) {
-      console.log(worker);
-      let div = document.createElement("div");
-      let content = `
+      if (worker.Nom) {
+        console.log(worker);
+        let div = document.createElement("div");
+        let content = `
       <p class='text-black text-xs font-light'>${worker.Nom}</p>
       <p class="absolute right-1 text-xs unassign text-red-500">⨉</p>
   `;
-      div.classList =
-        "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
-      div.innerHTML = content;
-      container.appendChild(div);
+        div.classList =
+          "bg-white workerCard flex items-center relative p-2 h-fit w-[40%] gap-2";
+        div.innerHTML = content;
+        container.appendChild(div);
+      }
     }
   });
 
@@ -503,7 +497,7 @@ function displayInfo(i) {
         </div>
     </div>`;
   POPUPINFO.classList.remove("hidden");
-  console.log(workerToDispaly.Image)
+  console.log(workerToDispaly.Image);
 }
 POPUPINFO.addEventListener("click", (e) => {
   if (e.target === POPUPINFO || e.key == "Escape") {
