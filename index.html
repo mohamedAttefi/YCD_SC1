@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workhsphere</title>
+    <meta name="description"
+        content="Smart Staff Manager is a powerful web application that allows you to create employees, manage worker assignments, track roles, view experience history, and organize your team efficiently.">
+    <meta name="keywords"
+        content="staff management, worker assignment, employee manager, team organization, role manager, JavaScript project, workers list, HR tool, employee experience tracker">
+    <meta name="author" content="Mohamed Attefi">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .container {
@@ -73,7 +78,8 @@
                 <div class="w-full lg:w-[39%] flex flex-col gap-2 lg:gap-0">
                     <div
                         class="h-[250px] sm:h-[300px] lg:h-[34%] border-[1px] border-black relative flex justify-center items-center bg-[rgb(0,0,0,0.6)] text-white font-bold gap-2 sm:gap-4 flex-col p-2">
-                        <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrConference">0</span>/4</span>
+                        <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span
+                                id="ctrConference">0</span>/4</span>
                         <span class="text-sm sm:text-base text-center">Salle de Conference</span>
                         <button
                             onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'conferenceContainer', 4, ctrConference)"
@@ -83,9 +89,11 @@
                     </div>
                     <div class="h-[350px] sm:h-[400px] lg:h-[66%] border-[1px] border-black relative flex justify-center items-center bg-[rgb(0,0,0,0.6)] flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                         id="reception">
-                        <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrReception">0</span>/2</span>
+                        <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span
+                                id="ctrReception">0</span>/2</span>
                         <span class="text-sm sm:text-base text-center">Salle de reception</span>
-                        <button onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2, ctrReception)"
+                        <button
+                            onclick="addToArea(['Manager','Réceptionnistes','Nettoyage'],'receptionContainer', 2, ctrReception)"
                             class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
                         <div class="w-[95%] h-[55%] flex flex-wrap justify-around receptionContainer"
                             id="receptionContainer"></div>
@@ -95,7 +103,9 @@
                     <div class="h-auto lg:h-[35%] flex flex-col sm:flex-row gap-2 sm:gap-0">
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex flex-col justify-center items-center gap-2 sm:gap-4 text-white font-bold p-2"
                             id="archive">
-                            <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrArchive">0</span>/1</span>
+                            <span
+                                class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span
+                                    id="ctrArchive">0</span>/1</span>
                             <span class="text-sm sm:text-base text-center">Salle de archive</span>
                             <button onclick="addToArea(['Manager'], 'archiveContainer', 1, ctrArchive)"
                                 class="bg-sky-500 w-6 h-6 sm:w-5 sm:h-5 flex items-center rounded-md pb-[3px] justify-center hover:bg-sky-900 transition-all duration-[0.3s] text-lg">+</button>
@@ -105,7 +115,9 @@
 
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                             id="securite">
-                            <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrSecurity">0</span>/2</span>
+                            <span
+                                class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span
+                                    id="ctrSecurity">0</span>/2</span>
                             <span class="text-sm sm:text-base text-center">Salle de securite</span>
                             <button
                                 onclick="addToArea(['Manager','Agents de sécurité','Nettoyage'], 'securiteContainer', 2, ctrSecurity)"
@@ -118,7 +130,9 @@
                     <div class="h-auto lg:h-[34%] flex flex-col sm:flex-row gap-2 sm:gap-0 mt-2 lg:mt-0">
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                             id="personel">
-                            <span class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span id="ctrPersonel">0</span>/2</span>
+                            <span
+                                class="text-[0.5em] absolute top-1 right-3 p-1 px-2 rounded text-black bg-gray-300"><span
+                                    id="ctrPersonel">0</span>/2</span>
                             <span class="text-sm sm:text-base text-center">Salle de personel</span>
                             <button
                                 onclick="addToArea(['Manager','Autres rôles','Nettoyage','Agents de sécurité','Techniciens IT','Réceptionnistes'], 'personelContainer', 2, ctrPersonel)"
@@ -129,7 +143,9 @@
 
                         <div class="w-full sm:w-[50%] h-[200px] sm:h-[250px] lg:h-[100%] border-[1px] border-black relative bg-[rgb(0,0,0,0.6)] flex justify-center items-center flex-col gap-2 sm:gap-4 text-white font-bold p-2"
                             id="serveur">
-                            <span class="absolute top-1 right-3 p-1 px-2 text-[0.5em] rounded text-black bg-gray-300"><span id="ctrServeur">0</span>/2</span>
+                            <span
+                                class="absolute top-1 right-3 p-1 px-2 text-[0.5em] rounded text-black bg-gray-300"><span
+                                    id="ctrServeur">0</span>/2</span>
                             <span class="text-sm sm:text-base text-center">Salle de serveur</span>
                             <button
                                 onclick="addToArea(['Manager', 'Techniciens IT','Nettoyage'], 'serveurContainer', 2, ctrServeur)"
@@ -145,7 +161,8 @@
 
     </div>
     <div
-        class="fixed top-10 sm:top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden popup-info p-4"></div>
+        class="fixed top-10 sm:top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden popup-info p-4">
+    </div>
 
     <div
         class="fixed top-10 sm:top-0 h-screen w-screen bg-[rgb(0,0,0,0.6)] flex items-center justify-center backdrop-blur-[5px] hidden popup-container p-4">
@@ -217,8 +234,7 @@
             class="w-full sm:w-[90%] md:w-[70%] lg:w-[40%] max-h-[80vh] rounded-xl bg-white border-gray-700 relative flex flex-col gap-2 border-[1px] p-3 sm:p-4">
             <h1 class="w-full text-center font-bold text-base sm:text-lg pt-2 title">Add worker to work space</h1>
             <p class="absolute right-3 top-2 close cursor-pointer text-2xl hover:text-red-500">⨉</p>
-            <div
-                class="cardsContainer flex flex-col justify-center w-full items-center gap-4 overflow-y-auto ">
+            <div class="cardsContainer flex flex-col justify-center w-full items-center gap-4 overflow-y-auto ">
             </div>
             <button
                 class="Add bg-green-400 p-3 sm:p-4 rounded-lg font-semibold hover:bg-green-500 transition-all text-sm sm:text-base">Add
