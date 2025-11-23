@@ -137,7 +137,7 @@ function AddWorker() {
   img.onerror = () => {
     img.src =
       "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
-
+      
   };
   worker = {
     ...worker,
