@@ -129,8 +129,7 @@ function AddWorker() {
     }
   }
   console.log(workersArr);
-  workersArr.push(worker);
-  localStorage.setItem("workers", JSON.stringify(workersArr));
+
   closePopup();
 
   workersContainer.innerHTML += content;
@@ -140,6 +139,9 @@ function AddWorker() {
     img.src =
       "https://i.pinimg.com/736x/04/f0/63/04f0632a7360bbe60465770ba3fe50a6.jpg";
   };
+  worker.Image = img.src
+  workersArr.push(worker);
+  localStorage.setItem("workers", JSON.stringify(workersArr));
   disponible.textContent = workersContainer.children.length;
 }
 function closePopup() {
