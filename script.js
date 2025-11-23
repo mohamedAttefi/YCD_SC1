@@ -43,24 +43,24 @@ function ShowPopUp() {
   popupContainer.classList.remove("hidden");
 }
 function AddWorker() {
-  // if (
-  //   !nom.value.match(/[a-zA-Z]{4,}$/) ||
-  //   !Email.value.match(/^[a-zA-Z]+@gmail.com$/) ||
-  //   !Telephone.value.match(/^0[5-7]\d{8}$/)
-  // ) {
-  //   Swal.fire({
-  //     title: "please enter valid inputs",
-  //     icon: "warning",
-  //     confirmButtonText: "Okay",
-  //   }).then(() => {
-  //     Telephone.value = "";
-  //     source.value = "";
-  //     role.value = "";
-  //     Email.value = "";
-  //     nom.value = "";
-  //   });
-  //   return;
-  // }
+  if (
+    !nom.value.match(/[a-zA-Z]{4,}$/) ||
+    !Email.value.match(/^[a-zA-Z]+@gmail.com$/) ||
+    !Telephone.value.match(/^0[5-7]\d{8}$/)
+  ) {
+    Swal.fire({
+      title: "please enter valid inputs",
+      icon: "warning",
+      confirmButtonText: "Okay",
+    }).then(() => {
+      Telephone.value = "";
+      source.value = "";
+      role.value = "";
+      Email.value = "";
+      nom.value = "";
+    });
+    return;
+  }
   let imageSrc;
   if (source.value.trim() == "") {
     imageSrc =
